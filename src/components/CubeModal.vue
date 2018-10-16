@@ -197,50 +197,6 @@ $modal-box-shadow: 0 0.4rem 1rem rgba(black,.3);
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  &.full-screen {
-    .modal-dialog {
-      min-width: 100%;
-      min-height: 100%;
-      height: auto;
-      border-radius: 0;
-      margin: 0;
-    }
-  }
-  @media (max-width: $screen-xs-max) {
-    &.full-screen-xs {
-      .modal-dialog {
-        min-width: 100%;
-        min-height: 100%;
-        height: auto;
-        border-radius: 0;
-        margin: 0;
-      }
-    }
-  }
-  &.modal-xs {
-    .modal-dialog {
-      width: 100%;
-      max-width: 280px;
-    }
-  }
-  &.modal-sm {
-    .modal-dialog {
-      width: 100%;
-      max-width: 320px;
-    }
-  }
-  &.modal-md {
-    .modal-dialog {
-      width: 100%;
-      max-width: 512px;
-    }
-  }
-  &.modal-lg {
-    .modal-dialog {
-      width: 100%;
-      max-width: 1024px;
-    }
-  }
 }
 .modal-backdrop {
   z-index: $z-index-modal-backdrop;
