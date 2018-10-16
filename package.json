@@ -7,16 +7,17 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://fredericgomez@bitbucket.org/cube-inc/cube-vue-modal.git"
+    "url": "https://bitbucket.org/cube-inc/cube-vue-modal.git"
   },
   "keywords": [
     "vue",
     "modal"
   ],
 
-  "main": "dist/cube-vue-modal.umd.js",
-  "module": "dist/cube-vue-modal.esm.js",
-  "unpkg": "dist/cube-vue-modal.min.js",
+  "main": "src/components/CubeModal.vue",
+  "_main": "dist/cube-vue-modal.umd.js",
+  "_module": "dist/cube-vue-modal.esm.js",
+  "_unpkg": "dist/cube-vue-modal.min.js",
   "browser": {
     "./sfc": "src/components/CubeModal.vue"
   },
