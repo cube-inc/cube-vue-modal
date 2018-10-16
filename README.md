@@ -16,6 +16,18 @@ html, body {
 }
 ```
 
+## Run the demo
+```
+yarn install
+yarn run serve --open
+```
+
+## Install the dependency
+
+```
+yarn add https://fredericgomez@bitbucket.org/cube-inc/cube-vue-modal.git
+```
+
 ## Project setup
 ```
 yarn install
