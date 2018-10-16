@@ -1,0 +1,14 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  font-family: $font-family-base;
+  color: $text-color;
+  line-height: $line-height-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-base;
+}
