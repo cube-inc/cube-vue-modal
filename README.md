@@ -25,7 +25,7 @@ yarn run serve --open
 ## Install the dependency
 
 ```
-yarn add https://fredericgomez@bitbucket.org/cube-inc/cube-vue-modal.git
+yarn add git+ssh://git@bitbucket.org:cube-inc/cube-vue-modal.git
 ```
 
 ## Project setup
