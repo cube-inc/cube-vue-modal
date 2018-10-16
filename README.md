@@ -1,5 +1,21 @@
 # cube-vue-modal
 
+## Key features
+
+- CSS customizable
+- Safari iOS over-scroll issue bulletproof
+
+This project may not be the best modal for every situation.
+It will work well only if you manage to remove padding and margings from html and body.
+This is due to the way this modal is working by "css lock" `vm.$root.$el`.
+
+```css
+html, body {
+  margin: 0;
+  padding: 0;
+}
+```
+
 ## Project setup
 ```
 yarn install
@@ -13,11 +29,6 @@ yarn run serve
 ### Compiles and minifies for production
 ```
 yarn run build
-```
-
-### Run your tests
-```
-yarn run test
 ```
 
 ### Lints and fixes files
