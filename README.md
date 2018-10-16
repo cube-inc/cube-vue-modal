@@ -17,38 +17,50 @@ html, body {
 ```
 
 ## Run the demo
-```
+
+```sh
 yarn install
 yarn run serve --open
 ```
 
 ## Install the dependency
 
+```sh
+yarn add ssh://git@bitbucket.org:cube-inc/cube-vue-modal.git
 ```
-yarn add git+ssh://git@bitbucket.org:cube-inc/cube-vue-modal.git
+
+With a specific version
+
+```sh
+yarn add ssh://git@bitbucket.org:cube-inc/cube-vue-modal.git#v0.1.1
 ```
 
 ## Project setup
-```
+
+```sh
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
-```
+
+```sh
 yarn run serve
 ```
 
 ### Compiles and minifies for production
-```
+
+```sh
 yarn run build
 ```
 
 ### Lints and fixes files
-```
+
+```sh
 yarn run lint
 ```
 
 ### Run your unit tests
-```
+
+```sh
 yarn run test:unit
 ```
