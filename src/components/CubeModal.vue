@@ -16,8 +16,8 @@ const smoothBehaviorAnimationDuration = 500
 export default {
   name: 'CubeModal',
   props: {
-    transition: { type: String, default: 'animate' },
-    value: { type: Boolean, default: false }
+    value: { type: Boolean, default: false },
+    transition: { type: String, default: 'animate' }
   },
   data () {
     return {
