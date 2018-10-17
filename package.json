@@ -1,10 +1,10 @@
 {
   "name": "cube-vue-modal",
   "version": "0.1.4",
-  "description": "",
+  "description": "A simple, basic, highly customizable and mobile friendly modal component for Vue.",
   "author": "Fred Gomez <fred@joincube.ca>",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "repository": {
     "type": "git",
     "url": "https://bitbucket.org/cube-inc/cube-vue-modal.git"
