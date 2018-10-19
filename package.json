@@ -35,9 +35,9 @@
     "prepublish": "yarn run lint && yarn run test:unit && yarn run build"
   },
   "dependencies": {
-    "vue": "^2.5.17"
   },
   "devDependencies": {
+    "vue": "^2.5.17",
     "@vue/cli-plugin-babel": "^3.0.5",
     "@vue/cli-plugin-eslint": "^3.0.5",
     "@vue/cli-plugin-unit-jest": "^3.0.5",
