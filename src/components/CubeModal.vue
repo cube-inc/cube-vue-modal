@@ -22,6 +22,7 @@ export default {
   data () {
     return {
       windowScroll: null,
+      animate: false,
       opened: false,
       showBackdrop: false,
       showModal: false
@@ -109,9 +110,10 @@ export default {
     },
     open () {
       return new Promise(resolve => {
-        if (!this.opened) {
-          this.opened = true
+        if (!this.animate) {
+          this.animate = true
           this.saveScroll()
+          this.opened = true
           this.$nextTick()
             .then(() => this.lockRoot())
             .then(() => new Promise(resolve => setTimeout(resolve, 10))) // nextTick would be not enough
@@ -119,6 +121,7 @@ export default {
             .then(() => (this.showBackdrop = true))
             .then(() => this.$nextTick())
             .then(() => (this.showModal = true))
+            .then(() => (this.animate = false))
             .then(() => this.$emit('input', true))
             .then(() => this.$emit('open', this))
             .then(() => resolve(this))
@@ -129,7 +132,7 @@ export default {
     },
     close (options) {
       return new Promise(resolve => {
-        if (this.opened) {
+        if (!this.animate && this.opened) {
           const transitions = []
           if (this.showModal) {
             transitions.push(new Promise(resolve => this.$once('modal-after-leave', resolve)))
@@ -138,6 +141,7 @@ export default {
             transitions.push(new Promise(resolve => this.$once('backdrop-after-leave', resolve)))
           }
 
+          this.animate = true
           this.scrollTo({ top: 0, behavior: 'smooth' })
             .then(() => {
               this.showModal = false
@@ -147,6 +151,7 @@ export default {
             .then(() => this.unlockRoot())
             .then(() => this.restoreScroll())
             .then(() => (this.opened = false))
+            .then(() => (this.animate = false))
             .then(() => this.$emit('input', false))
             .then(() => this.$emit('close', this))
             .then(() => resolve(this))
