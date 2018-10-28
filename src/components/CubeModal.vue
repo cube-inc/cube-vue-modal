@@ -108,7 +108,6 @@ export default {
       return Promise.resolve(this)
     },
     open () {
-      console.debug('open')
       return new Promise(resolve => {
         if (!this.opened) {
           this.opened = true
