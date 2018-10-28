@@ -118,6 +118,7 @@ export default {
             .then(() => this.$nextTick())
             .then(() => (this.showModal = true))
             .then(() => (this.animate = false))
+            .then(() => this.$emit('input', true))
             .then(() => this.$emit('open', this))
             .then(() => resolve(this))
         } else {
