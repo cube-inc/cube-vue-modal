@@ -16,7 +16,7 @@
     </section>
     <section>
       <p class="lead">Click the button below to open the modal.</p>
-      <button type="button" :disabled="modalOpened" @click="modalOpened = true">Open</button>
+      <button type="button" :disabled="modalOpened" @click="$refs.modal.open()">Open</button>
     </section>
     <section>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rutrum quam ac justo suscipit commodo. Mauris dignissim iaculis egestas. Fusce eleifend finibus dignissim. Phasellus pharetra tincidunt tellus vel posuere. Praesent feugiat luctus dui, eget mollis purus accumsan eget. Etiam iaculis dui felis, ut finibus tortor sollicitudin sit amet. Pellentesque nisi velit, posuere eu pharetra at, vestibulum in ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -25,7 +25,7 @@
       <p>Nam leo justo, volutpat vitae euismod sed, rutrum eget risus. Ut velit augue, cursus ut consectetur eget, tempor a dui. Donec vel gravida felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec elementum lacinia rutrum. Nullam id turpis libero. Sed rutrum sed massa ut pharetra. Integer volutpat volutpat justo eu porta. Donec mattis sit amet turpis venenatis interdum. Suspendisse pellentesque ultrices sem, in mattis arcu efficitur in. Cras quis ornare nibh, sit amet scelerisque eros. Phasellus ullamcorper magna quis lobortis facilisis.</p>
       <p>Nullam euismod odio id convallis tincidunt. Morbi non porta dolor, eget sagittis nulla. Integer sapien mi, pellentesque vitae magna ut, laoreet convallis purus. Aliquam enim leo, accumsan eu gravida sit amet, cursus nec dolor. Donec dapibus et massa vel volutpat. Sed et mauris at orci ultricies viverra. Nam sit amet venenatis ligula. Nulla erat dolor, consequat a elementum eu, luctus et felis.</p>
     </section>
-    <CubeModal v-model="modalOpened">
+    <CubeModal ref="modal" v-model="modalOpened">
       <header>
         <h1>Title</h1>
       </header>
