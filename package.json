@@ -1,6 +1,6 @@
 {
   "name": "cube-vue-modal",
-  "version": "0.1.12",
+  "version": "0.2.0",
   "description": "A simple, basic, highly customizable and mobile friendly modal component for Vue.",
   "author": "Fred Gomez <fred@joincube.ca>",
   "license": "MIT",
