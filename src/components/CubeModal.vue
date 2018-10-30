@@ -66,95 +66,95 @@ export default {
         setTimeout(resolve, ms)
       })
     },
-    saveScroll () {
-      return new Promise(resolve => {
-        this.windowScroll = this.getScroll()
-        resolve(this.windowScroll)
-      })
-    },
-    restoreScroll (options) {
-      return new Promise(resolve => {
-        const { windowScroll } = Object.assign({}, this, options)
-        this.windowScroll = null
-        const { top, left } = windowScroll
-        this.scrollTo({ top, left, behavior: 'instant' })
-          .then(() => resolve(windowScroll))
-      })
-    },
     lockRoot () {
-      const { top, left } = this.windowScroll
-      Object.assign(this.$root.$el.style, {
-        position: 'fixed',
-        zIndex: '0',
-        top: `-${top}px`,
-        right: '0',
-        bottom: '0',
-        left: `-${left}px`,
-        overflow: 'hidden'
+      const { top, left } = this.getScroll()
+      this.windowScroll = { top, left }
+      const style = this.$root.$el.style
+      return new Promise(resolve => {
+        window.requestAnimationFrame(() => {
+          style.position = 'fixed'
+          style.top = top > 0 ? '-' + top + 'px' : '0'
+          style.right = '0'
+          style.bottom = '0'
+          style.left = left > 0 ? '-' + left + 'px' : '0'
+          style.overflow = 'hidden'
+          window.requestAnimationFrame(() => {
+            window.scrollTo(0, 0)
+            resolve(this)
+          })
+        })
       })
-      return Promise.resolve(this)
     },
     unlockRoot () {
-      Object.assign(this.$root.$el.style, {
-        overflow: '',
-        height: '',
-        width: '',
-        left: '',
-        bottom: '',
-        right: '',
-        top: '',
-        zIndex: '',
-        position: ''
+      const { top, left } = this.windowScroll
+      this.windowScroll = null
+      const style = this.$root.$el.style
+      return new Promise(resolve => {
+        window.requestAnimationFrame(() => {
+          style.position = ''
+          window.scrollTo(left, top)
+          window.requestAnimationFrame(() => {
+            style.overflow = ''
+            style.left = ''
+            style.bottom = ''
+            style.right = ''
+            style.top = ''
+            resolve(this)
+          })
+        })
       })
-      return Promise.resolve(this)
     },
     open () {
       return new Promise(resolve => {
         if (!this.animate) {
           this.animate = true
-          this.saveScroll()
           this.opened = true
           this.$nextTick()
             .then(() => this.lockRoot())
-            .then(() => new Promise(resolve => setTimeout(resolve, 10))) // nextTick would be not enough
-            .then(() => this.scrollTo({ top: 0, behavior: 'instant' }))
-            .then(() => (this.showBackdrop = true))
-            .then(() => this.$nextTick())
-            .then(() => (this.showModal = true))
-            .then(() => (this.animate = false))
-            .then(() => this.$emit('input', true))
-            .then(() => this.$emit('open', this))
-            .then(() => resolve(this))
+            .then(() => {
+              this.showBackdrop = true
+              this.showModal = true
+              this.animate = false
+              this.$emit('input', true)
+              this.$emit('open', this)
+              resolve(this)
+            })
         } else {
           resolve(this)
         }
       })
     },
+    closeModal () {
+      const promise = this.showModal
+        ? new Promise(resolve => this.$once('modal-after-leave', resolve))
+        : Promise.resolve()
+      this.showModal = false
+      return promise
+    },
+    closeBackdrop () {
+      const promise = this.showBackdrop
+        ? new Promise(resolve => this.$once('backdrop-after-leave', resolve))
+        : Promise.resolve()
+      this.showBackdrop = false
+      return promise
+    },
     close (options) {
       return new Promise(resolve => {
         if (!this.animate && this.opened) {
-          const transitions = []
-          if (this.showModal) {
-            transitions.push(new Promise(resolve => this.$once('modal-after-leave', resolve)))
-          }
-          if (this.showBackdrop) {
-            transitions.push(new Promise(resolve => this.$once('backdrop-after-leave', resolve)))
-          }
-
           this.animate = true
-          this.scrollTo({ top: 0, behavior: 'smooth' })
-            .then(() => {
-              this.showModal = false
-              this.showBackdrop = false
-              return Promise.all(transitions)
-            })
+          this.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+            .then(() => Promise.all([
+              this.closeModal(),
+              this.closeBackdrop()
+            ]))
             .then(() => this.unlockRoot())
-            .then(() => this.restoreScroll())
-            .then(() => (this.opened = false))
-            .then(() => (this.animate = false))
-            .then(() => this.$emit('input', false))
-            .then(() => this.$emit('close', this))
-            .then(() => resolve(this))
+            .then(() => {
+              this.opened = false
+              this.animate = false
+              this.$emit('input', false)
+              this.$emit('close', this)
+              resolve(this)
+            })
         } else {
           resolve(this)
         }
@@ -207,10 +207,10 @@ $modal-box-shadow: 0 0.4rem 1rem rgba(black,.3);
   z-index: $z-index-modal-backdrop;
   position: fixed;
   // Extends the backdrop out of the viewport against overscroll visual glitch on Chrome
-  top: -100%;
-  width: 300%;
-  height: 300%;
-  left: -100%;
+  top: -100px;
+  right: -100px;
+  bottom: -100px;
+  left: -100px;
   background-color: $modal-backdrop-color;
 }
 .modal-dialog {
