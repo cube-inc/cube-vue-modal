@@ -168,7 +168,9 @@ export default {
     document.body.appendChild(this.$el)
   },
   beforeDestroy () {
-    this.unlockRoot()
+    if (this.opened) {
+      this.unlockRoot()
+    }
     document.body.removeChild(this.$el)
   }
 }
