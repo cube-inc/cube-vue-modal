@@ -90,18 +90,14 @@ export default {
       this.windowScroll = null
       const style = this.$root.$el.style
       return new Promise(resolve => {
-        window.requestAnimationFrame(() => {
-          style.position = ''
-          window.scrollTo(left, top)
-          window.requestAnimationFrame(() => {
-            style.overflow = ''
-            style.left = ''
-            style.bottom = ''
-            style.right = ''
-            style.top = ''
-            resolve(this)
-          })
-        })
+        style.position = ''
+        style.overflow = ''
+        style.left = ''
+        style.bottom = ''
+        style.right = ''
+        style.top = ''
+        window.scrollTo(left, top)
+        resolve(this)
       })
     },
     open () {
