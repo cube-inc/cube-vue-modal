@@ -1,0 +1,73 @@
+// Z-index
+$z-index-modal-backdrop: 20;
+$z-index-modal-dialog: 30;
+
+// Modal
+$modal-backdrop-color: rgba(black, .4);
+$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, .65);
+$modal-bg-color: darken(white, 2%);
+$modal-box-shadow: 0 .4rem 1rem rgba(black, .3);
+$modal-backdrop-filter: saturate(200%) blur(4px);
+$modal-border-radius: 1px;
+
+.modal {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-width: 100%;
+  min-height: 100vh; // To make sure to not trigger an address bar change from Safari iOS
+  &-backdrop {
+    position: fixed;
+    z-index: $z-index-modal-backdrop;
+    // Extends the backdrop out of the viewport against overscroll visual glitch on Chrome
+    top: -100px;
+    right: -100px;
+    bottom: -100px;
+    left: -100px;
+    background-color: $modal-backdrop-color-no-filter;
+    @supports (backdrop-filter: $modal-backdrop-filter) {
+      background-color: $modal-backdrop-color;
+      backdrop-filter: $modal-backdrop-filter;
+    }
+  }
+  &-dialog {
+    position: relative;
+    z-index: $z-index-modal-dialog;
+    box-sizing: border-box;
+    margin: 2em 1em;
+    padding: 1em 2em;
+    height: 100%;
+    border-radius: $modal-border-radius;
+    background-color: $modal-bg-color;
+    box-shadow: $modal-box-shadow;
+    .close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 30px;
+      height: 30px;
+      margin: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      line-height: 30px;
+      color: $text-color;
+      font-size: 24px;
+      opacity: .5;
+      border-radius: 50%;
+      transition: all 250ms ease;
+      &::before {
+        content: "×";
+      }
+      &:hover {
+        opacity: 1;
+        text-decoration: none;
+        background-color: rgba(black,.1);
+      }
+    }
+  }
+}

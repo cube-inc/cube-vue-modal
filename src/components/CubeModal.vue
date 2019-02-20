@@ -33,7 +33,7 @@ export default {
       return `${this.transition}-backdrop`
     },
     modalTransition () {
-      return `${this.transition}-modal`
+      return `${this.transition}-dialog`
     }
   },
   watch: {
@@ -175,50 +175,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-
-// Breakpoints
-$screen-xs: 576px;
-$screen-xs-max: ($screen-xs - 1px);
-
-// Z-index
-$z-index-modal-backdrop: 20;
-$z-index-modal: 30;
-
-// Modal
-$modal-backdrop-color: rgba(black, .6);
-$modal-bg-color: darken(white,3%);
-$modal-box-shadow: 0 0.4rem 1rem rgba(black,.3);
-
-.modal {
-  position: relative;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  min-height: 100vh; // To make sure to not trigger an address bar change from Safari iOS
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-.modal-backdrop {
-  z-index: $z-index-modal-backdrop;
-  position: fixed;
-  // Extends the backdrop out of the viewport against overscroll visual glitch on Chrome
-  top: -100px;
-  right: -100px;
-  bottom: -100px;
-  left: -100px;
-  background-color: $modal-backdrop-color;
-}
-.modal-dialog {
-  position: relative;
-  z-index: $z-index-modal;
-  box-sizing: border-box;
-  margin: 2em 1em;
-  padding: 1em 2em;
-  height: 100%;
-  background-color: $modal-bg-color;
-  box-shadow: $modal-box-shadow;
-}
-</style>
