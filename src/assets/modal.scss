@@ -1,14 +1,24 @@
 // Z-index
-$z-index-modal-backdrop: 20;
-$z-index-modal-dialog: 30;
+$z-index-modal-backdrop: 20 !default;
+$z-index-modal-dialog: 30 !default;
 
 // Modal
-$modal-backdrop-color: rgba(black, .4);
-$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, .65);
-$modal-bg-color: darken(white, 2%);
-$modal-box-shadow: 0 .4rem 1rem rgba(black, .3);
-$modal-backdrop-filter: saturate(200%) blur(4px);
-$modal-border-radius: 1px;
+$modal-backdrop-color: rgba(black, .4) !default;
+$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, .65) !default;
+$modal-backdrop-filter: saturate(200%) blur(4px) !default;
+
+$modal-dialog-margin: 2em 1em !default;
+$modal-dialog-padding: 1em 2em !default;
+$modal-dialog-bg-color: darken(white, 2%) !default;
+$modal-dialog-border-radius: 1px !default;
+$modal-dialog-box-shadow: 0 .4rem 1rem rgba(black, .3) !default;
+
+$modal-close-color: #777777 !default;
+$modal-close-font-size: 16px !default;
+$modal-close-button-size: 30px !default;
+$modal-close-margin: 4px !default;
+$modal-close-border-radius: 50% !default;
+$modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%) !default;
 
 .modal {
   position: relative;
@@ -37,36 +47,34 @@ $modal-border-radius: 1px;
     position: relative;
     z-index: $z-index-modal-dialog;
     box-sizing: border-box;
-    margin: 2em 1em;
-    padding: 1em 2em;
+    margin: $modal-dialog-margin;
+    padding: $modal-dialog-padding;
     height: 100%;
-    border-radius: $modal-border-radius;
-    background-color: $modal-bg-color;
-    box-shadow: $modal-box-shadow;
-    .close {
+    border-radius: $modal-dialog-border-radius;
+    background-color: $modal-dialog-bg-color;
+    box-shadow: $modal-dialog-box-shadow;
+    &-close {
       position: absolute;
       top: 0;
       right: 0;
-      width: 30px;
-      height: 30px;
-      margin: 4px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      width: $modal-close-button-size;
+      height: $modal-close-button-size;
+      margin: $modal-close-margin;
+      border-radius: $modal-close-border-radius;
+      font-size: $modal-close-font-size;
+      line-height: $modal-close-button-size;
       text-align: center;
-      line-height: 30px;
-      color: $text-color;
-      font-size: 24px;
-      opacity: .5;
-      border-radius: 50%;
+      color: $modal-close-color;
+      opacity: .4;
+      cursor: pointer;
       transition: all 250ms ease;
       &::before {
-        content: "×";
+        content: "✕";
       }
       &:hover {
         opacity: 1;
         text-decoration: none;
-        background-color: rgba(black,.1);
+        background-color: $modal-close-bg-color-hover;
       }
     }
   }
