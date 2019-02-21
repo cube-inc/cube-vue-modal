@@ -13,21 +13,24 @@
     "vue",
     "modal"
   ],
-  "main": "dist/cube-vue-modal.umd.js",
+  "main": "dist/cube-vue-modal.min.js",
   "module": "dist/cube-vue-modal.esm.min.js",
   "unpkg": "dist/cube-vue-modal.umd.min.js",
-  "browser": "src/wrapper.js",
+  "browser": {
+    "./sfc": "src/components/CubeModal.vue"
+  },
   "files": [
     "dist",
     "src/components/CubeModal.vue"
   ],
   "scripts": {
+    "clean": "rimraf dist",
     "serve": "vue-cli-service serve",
     "cli:build": "vue-cli-service build --target lib --name cube-vue-modal src/wrapper.js",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "build": "rollup --config",
-    "build:watch": "rollup --config --watch"
+    "build": "rimraf dist && rollup --config",
+    "build:watch": "rimraf dist && rollup --config --watch"
   },
   "dependencies": {},
   "devDependencies": {
@@ -43,9 +46,8 @@
     "rollup": "^1.2.2",
     "rollup-plugin-buble": "^0.19.6",
     "rollup-plugin-commonjs": "^9.2.0",
-    "rollup-plugin-copy-assets": "^1.1.0",
+    "rollup-plugin-copy-glob": "^0.3.0",
     "rollup-plugin-css-only": "^1.0.0",
-    "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-scss": "^1.0.0",
     "rollup-plugin-terser": "^4.0.4",
     "rollup-plugin-vue": "^4.7.2",
