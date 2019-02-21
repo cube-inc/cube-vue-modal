@@ -58,6 +58,29 @@ export default {
 </script>
 
 <style lang="scss">
+$z-index-modal-backdrop: 20;
+$z-index-modal-dialog: 30;
+
+$modal-backdrop-color: rgba(black, .4);
+$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, .65);
+$modal-backdrop-filter: saturate(200%) blur(4px);
+
+$modal-dialog-margin: 2em 1em;
+$modal-dialog-padding: 1em 2em;
+$modal-dialog-bg-color: darken(white, 2%);
+$modal-dialog-border-radius: 1px;
+$modal-dialog-box-shadow: 0 .4rem 1rem rgba(black, .3);
+
+$modal-close-color: #777777;
+$modal-close-font-size: 16px;
+$modal-close-button-size: 30px;
+$modal-close-margin: 4px;
+$modal-close-border-radius: 50%;
+$modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%);
+
+@import 'assets/modal.scss';
+@import 'assets/animations.scss';
+
 html, body {
   margin: 0;
   padding: 0;

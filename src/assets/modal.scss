@@ -18,6 +18,7 @@ $modal-close-font-size: 16px !default;
 $modal-close-button-size: 30px !default;
 $modal-close-margin: 4px !default;
 $modal-close-border-radius: 50% !default;
+$modal-close-bg-color: transparent !default;
 $modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%) !default;
 
 .modal {
@@ -65,6 +66,7 @@ $modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%) !default;
       line-height: $modal-close-button-size;
       text-align: center;
       color: $modal-close-color;
+      background-color: $modal-close-bg-color;
       opacity: .4;
       cursor: pointer;
       transition: all 250ms ease;
