@@ -25,6 +25,7 @@ yarn add cube-vue-modal
     <Modal v-model="open">
       <header>
         <h1>Title</h1>
+        <a class="modal-dialog-close"@click.prevent="open = true"></a>
       </header>
       <main>
         This is a content.
@@ -52,25 +53,47 @@ export default {
 </script>
 
 <style lang="scss">
+/* Import your own variables */
+@import 'assets/_variables.scss';
+
+/* Import style and animations, defaults are overrided by your own assets/_variables.scss */
+@import 'cube-vue-modal/dist/assets/modal.scss';
+@import 'cube-vue-modal/dist/assets/animations.scss';
+
 /* This is required in order to make the over-scroll workaround work */
 html, body {
   margin: 0;
   padding: 0;
 }
 
-/* Overrides default style of the modal */
-.modal-backdrop {
-  background-color: rgba(white, .98);
-}
 .modal-dialog {
-    margin: 2em 1em;
-    padding: 3em 2em;
-    border-radius: 4px;
-    background-color: #fefefe;
-    box-shadow: 0 0.6px 16px rgba(black,.3);
     align-self: center;
 }
 </style>
+```
+
+```scss
+/* You can override all theses variables to style the modal components */
+$z-index-modal-backdrop: 20;
+$z-index-modal-dialog: 30;
+
+$modal-backdrop-color: rgba(black, .4);
+$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, .65);
+$modal-backdrop-filter: saturate(200%) blur(4px);
+
+$modal-dialog-margin: 2em 1em;
+$modal-dialog-padding: 1em 2em;
+$modal-dialog-bg-color: darken(white, 2%);
+$modal-dialog-border-radius: 1px;
+$modal-dialog-box-shadow: 0 .4rem 1rem rgba(black, .3);
+
+$modal-close-color: #777777;
+$modal-close-font-size: 16px;
+$modal-close-button-size: 30px;
+$modal-close-margin: 4px;
+$modal-close-border-radius: 50%;
+$modal-close-bg-color: transparent;
+$modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%);
 ```
 
 ## Props
