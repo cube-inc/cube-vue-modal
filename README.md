@@ -5,9 +5,9 @@ A simple, basic, highly customizable and mobile friendly modal component for Vue
 ## Key features
 
 - Easy to use
+- Basic HTML structure
 - CSS customizable
-- No structure overhead
-- Large content support – addresses the well-known Safari iOS over-scroll issue
+- Large content support — addresses the well-known Safari over-scroll issue on iOS
 
 ## Install
 
