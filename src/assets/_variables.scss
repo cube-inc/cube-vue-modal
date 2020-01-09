@@ -13,11 +13,3 @@ $font-weight-base: 300;
 $font-size-base: 1em; // iOS zooms the page to show a larger input field if its font-size is less than 16px/1em.
 $font-size-sm: .8em;
 $font-size-xs: .6em;
-
-// Modal
-$modal-backdrop-color: rgba(white, .8);
-$modal-backdrop-color-no-filter: rgba(white, .9);
-$modal-backdrop-filter: saturate(300%) blur(20px);
-$modal-bg-color: darken(white,.02);
-$modal-box-shadow: 0 0.4rem 1rem rgba(black,.3);
-$modal-border-radius: 4px;

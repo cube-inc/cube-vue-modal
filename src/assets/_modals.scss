@@ -1,3 +1,10 @@
+$modal-backdrop-color: rgba(white, .8) !default;
+$modal-backdrop-color-no-filter: rgba(white, .9) !default;
+$modal-backdrop-filter: saturate(300%) blur(20px) !default;
+$modal-bg-color: darken(white,.02) !default;
+$modal-box-shadow: 0 0.4rem 1rem rgba(black,.3) !default;
+$modal-border-radius: 4px !default;
+
 .modal {
   .modal-backdrop {
     background-color: $modal-backdrop-color-no-filter;

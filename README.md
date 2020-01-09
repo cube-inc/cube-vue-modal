@@ -106,9 +106,3 @@ yarn run lint
 # Run the unit tests
 yarn run test:unit
 ```
-
-## TODO
-
-- Writing more tests
-- Writing documentation and provide exemples related to animations
-- Defining a prop in order to switch off the iOS over-scroll workaround
