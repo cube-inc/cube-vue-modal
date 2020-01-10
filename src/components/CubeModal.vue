@@ -79,8 +79,10 @@ export default {
           style.left = left > 0 ? '-' + left + 'px' : '0'
           style.overflow = 'hidden'
           window.requestAnimationFrame(() => {
-            window.scrollTo(0, 0)
-            resolve(this)
+            window.requestAnimationFrame(() => {
+              window.scrollTo(0, 0)
+              resolve(this)
+            })
           })
         })
       })
@@ -90,14 +92,18 @@ export default {
       this.windowScroll = null
       const style = this.$root.$el.style
       return new Promise(resolve => {
-        style.position = ''
-        style.overflow = ''
-        style.left = ''
-        style.bottom = ''
-        style.right = ''
-        style.top = ''
-        window.scrollTo(left, top)
-        resolve(this)
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            style.position = ''
+            style.overflow = ''
+            style.left = ''
+            style.bottom = ''
+            style.right = ''
+            style.top = ''
+            window.scrollTo(left, top)
+            resolve(this)
+          })
+        })
       })
     },
     open () {
