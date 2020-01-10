@@ -12,3 +12,11 @@ html, body {
   line-height: $line-height-base;
   color: $text-color;
 }
+
+h1 {
+  small {
+    display: block;
+    font-size: 60%;
+    font-weight: normal;
+  }
+}

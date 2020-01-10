@@ -1,11 +1,14 @@
 <template>
   <div id="App">
     <header>
-      <h1>Cube Modal Demo</h1>
+      <h1>
+        {{ name }}
+        <small>v{{ version }}</small>
+      </h1>
+      <p class="lead">{{ description }}</p>
     </header>
     <section>
-      <p class="lead">Click the button below to open the modal.</p>
-      <button type="button" :disabled="modalOpened" @click="modalOpened = true">Open</button>
+      <button type="button" :disabled="modalOpened" @click="modalOpened = true">Open modal</button>
     </section>
     <section>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rutrum quam ac justo suscipit commodo. Mauris dignissim iaculis egestas. Fusce eleifend finibus dignissim. Phasellus pharetra tincidunt tellus vel posuere. Praesent feugiat luctus dui, eget mollis purus accumsan eget. Etiam iaculis dui felis, ut finibus tortor sollicitudin sit amet. Pellentesque nisi velit, posuere eu pharetra at, vestibulum in ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -15,8 +18,7 @@
       <p>Nullam euismod odio id convallis tincidunt. Morbi non porta dolor, eget sagittis nulla. Integer sapien mi, pellentesque vitae magna ut, laoreet convallis purus. Aliquam enim leo, accumsan eu gravida sit amet, cursus nec dolor. Donec dapibus et massa vel volutpat. Sed et mauris at orci ultricies viverra. Nam sit amet venenatis ligula. Nulla erat dolor, consequat a elementum eu, luctus et felis.</p>
     </section>
     <section>
-      <p class="lead">Click the button below to open the modal.</p>
-      <button type="button" :disabled="modalOpened" @click="$refs.modal.open()">Open</button>
+      <button type="button" :disabled="modalOpened" @click="$refs.modal.open()">Open modal</button>
     </section>
     <section>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rutrum quam ac justo suscipit commodo. Mauris dignissim iaculis egestas. Fusce eleifend finibus dignissim. Phasellus pharetra tincidunt tellus vel posuere. Praesent feugiat luctus dui, eget mollis purus accumsan eget. Etiam iaculis dui felis, ut finibus tortor sollicitudin sit amet. Pellentesque nisi velit, posuere eu pharetra at, vestibulum in ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -50,7 +52,11 @@ export default {
     CubeModal
   },
   data () {
+    const { name, version, description } = this.$root.$options.packageInfo
     return {
+      name,
+      version,
+      description,
       modalOpened: false
     }
   }

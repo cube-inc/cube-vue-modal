@@ -30,6 +30,8 @@ $modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%) !default;
   align-items: flex-start;
   min-width: 100%;
   min-height: 100vh; // To make sure to not trigger an address bar change from Safari iOS
+
+  // Backdrop
   &-backdrop {
     position: fixed;
     z-index: $z-index-modal-backdrop;
@@ -44,6 +46,8 @@ $modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%) !default;
       backdrop-filter: $modal-backdrop-filter;
     }
   }
+
+  // Dialog
   &-dialog {
     position: relative;
     z-index: $z-index-modal-dialog;
@@ -54,6 +58,8 @@ $modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%) !default;
     border-radius: $modal-dialog-border-radius;
     background-color: $modal-dialog-bg-color;
     box-shadow: $modal-dialog-box-shadow;
+
+    // Close
     &-close {
       position: absolute;
       top: 0;
