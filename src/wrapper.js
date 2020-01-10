@@ -1,14 +1,8 @@
-import component from './components/CubeModal.vue'
+import component from '@/components/CubeModal.vue'
 
-function install (Vue, options = {}) {
-  registerComponent(Vue, options)
-}
-
-function registerComponent (Vue, options) {
+component.install = (Vue, options = {}) => {
   const { name = component.name } = options
   Vue.component(name, component)
 }
-
-component.install = install
 
 export default component
