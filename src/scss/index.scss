@@ -1,8 +1,11 @@
+@import 'variables';
+
+@import 'modal';
+@import 'modal_animations';
+
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
   font-family: $font-family-base;
   font-size: $font-size-base;
   font-weight: $font-weight-base;

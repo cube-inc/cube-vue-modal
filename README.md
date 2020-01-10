@@ -57,8 +57,8 @@ export default {
 @import 'assets/_variables.scss';
 
 /* Import style and animations, defaults are overrided by your own assets/_variables.scss */
-@import 'cube-vue-modal/src/assets/_modal.scss';
-@import 'cube-vue-modal/src/assets/_modal_animations.scss';
+@import '~cube-vue-modal/src/scss/_modal.scss';
+@import '~cube-vue-modal/src/scss/_modal_animations.scss';
 
 /* This is required in order to make the over-scroll workaround work */
 html, body {

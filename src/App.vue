@@ -42,7 +42,7 @@
 
 <script>
 import CubeModal from './components/CubeModal'
-import './assets/index.scss'
+import './scss/index.scss'
 
 export default {
   name: 'app',
@@ -58,12 +58,11 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'assets/_modal.scss';
-@import 'assets/_modal_animations.scss';
-
 #App {
   padding: 2em 3em;
+  margin: 0 auto;
   text-align: center;
+  max-width: 768px;
   > section {
     margin: 3em 0;
     > p {
