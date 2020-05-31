@@ -3,7 +3,7 @@
 @import 'modal';
 @import 'modal_animations';
 
-html, body {
+body {
   margin: 0;
   padding: 0;
   font-family: $font-family-base;
@@ -11,12 +11,61 @@ html, body {
   font-weight: $font-weight-base;
   line-height: $line-height-base;
   color: $text-color;
+  background-color: white;
 }
-
+.container {
+  margin: 0 auto;
+  max-width: 768px;
+}
+.content {
+  padding: 1rem;
+}
+.section {
+  margin: 3em 0;
+}
+.lead {
+  font-size: 1.4em;
+}
 h1 {
+  margin: 1em 0;
   small {
     display: block;
     font-size: 60%;
     font-weight: normal;
+  }
+}
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.button {
+  cursor: pointer;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border: 0 none;
+  border-radius: 0.25rem;
+  background-color: $text-color;
+  color: white;
+  text-transform: uppercase;
+  &:hover {
+    background-color: rgba($text-color, 0.9);
+  }
+  &:active {
+    background-color: rgba($text-color, 0.8);
+  }
+}
+.modal-dialog-container {
+  > header {
+    margin: 1rem;
+    h1 {
+      margin: 0;
+    }
+  }
+  > main {
+    margin: 1rem;
+  }
+  > footer {
+    margin: 2rem 1rem;
   }
 }

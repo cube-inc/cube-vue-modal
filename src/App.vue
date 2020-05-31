@@ -1,44 +1,77 @@
 <template>
   <div id="App">
-    <header>
-      <h1>
-        {{ name }}
-        <small>v{{ version }}</small>
-      </h1>
-      <p class="lead">{{ description }}</p>
-    </header>
-    <section>
-      <button type="button" :disabled="modalOpened" @click="modalOpened = true">Open modal</button>
-    </section>
-    <section>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rutrum quam ac justo suscipit commodo. Mauris dignissim iaculis egestas. Fusce eleifend finibus dignissim. Phasellus pharetra tincidunt tellus vel posuere. Praesent feugiat luctus dui, eget mollis purus accumsan eget. Etiam iaculis dui felis, ut finibus tortor sollicitudin sit amet. Pellentesque nisi velit, posuere eu pharetra at, vestibulum in ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      <p>Sed ac nulla massa. Maecenas ultrices ante sit amet mi pellentesque condimentum. Pellentesque at purus quis neque dapibus varius. Cras imperdiet congue urna, a iaculis enim. Aliquam mattis facilisis mauris, id vulputate diam semper a. Quisque suscipit sollicitudin tellus, ac finibus massa mattis quis. Integer in nisl vel nunc elementum luctus. Curabitur neque elit, ullamcorper et imperdiet in, venenatis nec ipsum. Phasellus tristique libero eu turpis vehicula fermentum. Aenean faucibus est at porta blandit. Aliquam nec leo placerat, hendrerit dolor et, finibus magna. Duis aliquam tristique feugiat. Etiam sed erat sit amet neque ornare tempus non a tortor. Aenean vel enim non augue posuere viverra id eu elit.</p>
-      <p>Aliquam malesuada imperdiet turpis, ac euismod eros ornare ut. Nunc dignissim erat non velit lacinia elementum. Pellentesque elit leo, congue non mattis at, porta at nunc. Mauris consectetur vitae nisi nec placerat. Morbi dapibus lacinia leo, eu porttitor mi suscipit vitae. Curabitur a lacinia sapien. Sed nec justo congue urna dictum auctor id vitae justo. Sed vitae aliquet nibh.</p>
-      <p>Nam leo justo, volutpat vitae euismod sed, rutrum eget risus. Ut velit augue, cursus ut consectetur eget, tempor a dui. Donec vel gravida felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec elementum lacinia rutrum. Nullam id turpis libero. Sed rutrum sed massa ut pharetra. Integer volutpat volutpat justo eu porta. Donec mattis sit amet turpis venenatis interdum. Suspendisse pellentesque ultrices sem, in mattis arcu efficitur in. Cras quis ornare nibh, sit amet scelerisque eros. Phasellus ullamcorper magna quis lobortis facilisis.</p>
-      <p>Nullam euismod odio id convallis tincidunt. Morbi non porta dolor, eget sagittis nulla. Integer sapien mi, pellentesque vitae magna ut, laoreet convallis purus. Aliquam enim leo, accumsan eu gravida sit amet, cursus nec dolor. Donec dapibus et massa vel volutpat. Sed et mauris at orci ultricies viverra. Nam sit amet venenatis ligula. Nulla erat dolor, consequat a elementum eu, luctus et felis.</p>
-    </section>
-    <section>
-      <button type="button" :disabled="modalOpened" @click="$refs.modal.open()">Open modal</button>
-    </section>
-    <section>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rutrum quam ac justo suscipit commodo. Mauris dignissim iaculis egestas. Fusce eleifend finibus dignissim. Phasellus pharetra tincidunt tellus vel posuere. Praesent feugiat luctus dui, eget mollis purus accumsan eget. Etiam iaculis dui felis, ut finibus tortor sollicitudin sit amet. Pellentesque nisi velit, posuere eu pharetra at, vestibulum in ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      <p>Sed ac nulla massa. Maecenas ultrices ante sit amet mi pellentesque condimentum. Pellentesque at purus quis neque dapibus varius. Cras imperdiet congue urna, a iaculis enim. Aliquam mattis facilisis mauris, id vulputate diam semper a. Quisque suscipit sollicitudin tellus, ac finibus massa mattis quis. Integer in nisl vel nunc elementum luctus. Curabitur neque elit, ullamcorper et imperdiet in, venenatis nec ipsum. Phasellus tristique libero eu turpis vehicula fermentum. Aenean faucibus est at porta blandit. Aliquam nec leo placerat, hendrerit dolor et, finibus magna. Duis aliquam tristique feugiat. Etiam sed erat sit amet neque ornare tempus non a tortor. Aenean vel enim non augue posuere viverra id eu elit.</p>
-      <p>Aliquam malesuada imperdiet turpis, ac euismod eros ornare ut. Nunc dignissim erat non velit lacinia elementum. Pellentesque elit leo, congue non mattis at, porta at nunc. Mauris consectetur vitae nisi nec placerat. Morbi dapibus lacinia leo, eu porttitor mi suscipit vitae. Curabitur a lacinia sapien. Sed nec justo congue urna dictum auctor id vitae justo. Sed vitae aliquet nibh.</p>
-      <p>Nam leo justo, volutpat vitae euismod sed, rutrum eget risus. Ut velit augue, cursus ut consectetur eget, tempor a dui. Donec vel gravida felis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec elementum lacinia rutrum. Nullam id turpis libero. Sed rutrum sed massa ut pharetra. Integer volutpat volutpat justo eu porta. Donec mattis sit amet turpis venenatis interdum. Suspendisse pellentesque ultrices sem, in mattis arcu efficitur in. Cras quis ornare nibh, sit amet scelerisque eros. Phasellus ullamcorper magna quis lobortis facilisis.</p>
-      <p>Nullam euismod odio id convallis tincidunt. Morbi non porta dolor, eget sagittis nulla. Integer sapien mi, pellentesque vitae magna ut, laoreet convallis purus. Aliquam enim leo, accumsan eu gravida sit amet, cursus nec dolor. Donec dapibus et massa vel volutpat. Sed et mauris at orci ultricies viverra. Nam sit amet venenatis ligula. Nulla erat dolor, consequat a elementum eu, luctus et felis.</p>
-    </section>
-    <CubeModal ref="modal" v-model="modalOpened">
-      <header>
-        <h1>Title</h1>
-        <a class="modal-dialog-close" @click.prevent="modalOpened = false"></a>
+    <div class="container">
+      <header class="content">
+        <h1>
+          {{ name }}
+          <small>v{{ version }}</small>
+        </h1>
+        <p class="lead">{{ description }}</p>
       </header>
-      <main>
-        <p>Nullam euismod odio id convallis tincidunt. Morbi non porta dolor, eget sagittis nulla. Integer sapien mi, pellentesque vitae magna ut, laoreet convallis purus. Aliquam enim leo, accumsan eu gravida sit amet, cursus nec dolor. Donec dapibus et massa vel volutpat. Sed et mauris at orci ultricies viverra. Nam sit amet venenatis ligula. Nulla erat dolor, consequat a elementum eu, luctus et felis.</p>
-      </main>
-      <footer>
-        <button type="button" @click="modalOpened = false">Close</button>
-      </footer>
-    </CubeModal>
+      <section class="section content">
+        <button class="button" type="button" :disabled="modalOpen" @click="modalOpen = true">Open modal form prop</button>
+      </section>
+      <section class="section">
+        <img class="image" src="https://picsum.photos/1920/1080/" alt="Picsum photos" />
+      </section>
+      <section class="section content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rutrum quam ac justo suscipit commodo. Mauris dignissim iaculis
+          egestas. Fusce eleifend finibus dignissim. Phasellus pharetra tincidunt tellus vel posuere. Praesent feugiat luctus dui, eget
+          mollis purus accumsan eget. Etiam iaculis dui felis, ut finibus tortor sollicitudin sit amet. Pellentesque nisi velit, posuere eu
+          pharetra at, vestibulum in ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </p>
+      </section>
+      <section class="section">
+        <img class="image" src="https://picsum.photos/1920/1080/" alt="Picsum photos" />
+      </section>
+      <section class="section content">
+        <button class="button" type="button" :disabled="modalOpen" @click="openModal">Open modal from open()</button>
+      </section>
+      <section class="section content">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rutrum quam ac justo suscipit commodo. Mauris dignissim iaculis
+          egestas. Fusce eleifend finibus dignissim. Phasellus pharetra tincidunt tellus vel posuere. Praesent feugiat luctus dui, eget
+          mollis purus accumsan eget. Etiam iaculis dui felis, ut finibus tortor sollicitudin sit amet. Pellentesque nisi velit, posuere eu
+          pharetra at, vestibulum in ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </p>
+      </section>
+      <CubeModal ref="modal" v-model="modalOpen" @after-enter="$log('Modal opened')" @after-leave="$log('Modal closed')">
+        <header>
+          <h1>Modal Title</h1>
+        </header>
+        <aside>
+          <img class="image" src="https://picsum.photos/1920/1080/" alt="Picsum photos" />
+        </aside>
+        <main>
+          <p>
+            Nullam euismod odio id convallis tincidunt. Morbi non porta dolor, eget sagittis nulla. Integer sapien mi, pellentesque vitae
+            magna ut, laoreet convallis purus. Aliquam enim leo, accumsan eu gravida sit amet, cursus nec dolor. Donec dapibus et massa vel
+            volutpat. Sed et mauris at orci ultricies viverra. Nam sit amet venenatis ligula. Nulla erat dolor, consequat a elementum eu,
+            luctus et felis.
+          </p>
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias ipsam impedit ducimus sapiente quam explicabo, enim sint facere
+            sunt earum excepturi libero totam. Quidem nemo, nobis veritatis quos quia iusto? Minus consequatur ducimus, magnam sequi, cumque
+            nesciunt laboriosam fugit possimus blanditiis quibusdam officia necessitatibus inventore, amet eligendi doloremque molestiae.
+            Amet facere tempore a voluptatibus saepe ullam quaerat est, aspernatur at in et, consequatur sed? Sequi quasi praesentium
+            suscipit explicabo eaque? Recusandae, illum facere quae suscipit cupiditate temporibus voluptas nemo. Odio, quia. Rem, quaerat
+            natus ipsa id delectus repudiandae. Nesciunt quod reprehenderit praesentium sunt itaque, iste explicabo magni enim vero aliquid?
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, repellendus. Nam dolorum excepturi molestias. Obcaecati, numquam
+            ut nihil minima nobis libero alias excepturi dignissimos, aliquam quia reprehenderit facere esse? Accusantium quam optio unde ea
+            eius, eos alias doloribus quisquam nulla saepe tenetur aspernatur ipsam quidem excepturi reiciendis autem sequi? Quo alias
+            dolores eum in ad necessitatibus ratione iusto nemo deserunt ipsa sequi enim eos obcaecati sapiente nisi quas blanditiis
+            consectetur at aliquam, dolor magni, odit, maiores id. Laboriosam, voluptas itaque. Reprehenderit ab eos facere maxime
+            voluptates, eveniet, hic eum reiciendis, illo eligendi perferendis voluptatem enim eaque ipsum corporis voluptate ipsam.
+          </p>
+        </main>
+        <footer>
+          <button class="button" type="button" @click="modalOpen = false">Close</button>
+        </footer>
+      </CubeModal>
+    </div>
   </div>
 </template>
 
@@ -51,33 +84,26 @@ export default {
   components: {
     CubeModal
   },
-  data () {
+  data() {
     const { name, version, description } = this.$root.$options.packageInfo
     return {
       name,
       version,
       description,
-      modalOpened: false
+      modalOpen: false
+    }
+  },
+  methods: {
+    $log(message) {
+      console.info(message)
+    },
+    $alert(message) {
+      alert(message)
+    },
+    async openModal() {
+      await this.$refs.modal.open()
+      console.info('Modal opened from open()')
     }
   }
 }
 </script>
-
-<style lang="scss">
-#App {
-  padding: 2em 3em;
-  margin: 0 auto;
-  text-align: center;
-  max-width: 768px;
-  > section {
-    margin: 3em 0;
-    > p {
-      text-align: justify;
-    }
-  }
-  .lead {
-    text-align: center;
-    font-size: 1.4em;
-  }
-}
-</style>

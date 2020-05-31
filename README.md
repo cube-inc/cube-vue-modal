@@ -25,7 +25,7 @@ yarn add cube-vue-modal
     <Modal v-model="open">
       <header>
         <h1>Title</h1>
-        <a class="modal-dialog-close"@click.prevent="open = true"></a>
+        <a class="modal-dialog-close" @click.prevent="open = true"></a>
       </header>
       <main>
         This is a content.
@@ -38,37 +38,38 @@ yarn add cube-vue-modal
 </template>
 
 <script>
-import Modal from 'cube-vue-modal'
+  import Modal from 'cube-vue-modal'
 
-export default {
-  components: {
-    Modal
-  },
-  data () {
-    return {
-      open: false
+  export default {
+    components: {
+      Modal
+    },
+    data() {
+      return {
+        open: false
+      }
     }
   }
-}
 </script>
 
 <style lang="scss">
-/* Import your own variables */
-@import 'assets/_variables.scss';
+  /* Import your own variables */
+  @import 'assets/_variables.scss';
 
-/* Import style and animations, defaults are overrided by your own assets/_variables.scss */
-@import '~cube-vue-modal/src/scss/_modal.scss';
-@import '~cube-vue-modal/src/scss/_modal_animations.scss';
+  /* Import style and animations, defaults are overrided by your own assets/_variables.scss */
+  @import '~cube-vue-modal/src/scss/_modal.scss';
+  @import '~cube-vue-modal/src/scss/_modal_animations.scss';
 
-/* This is required in order to make the over-scroll workaround work */
-html, body {
-  margin: 0;
-  padding: 0;
-}
+  /* This is required in order to make the over-scroll workaround work */
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
 
-.modal-dialog {
+  .modal-dialog {
     align-self: center;
-}
+  }
 </style>
 ```
 
@@ -77,39 +78,39 @@ html, body {
 $z-index-modal-backdrop: 20;
 $z-index-modal-dialog: 30;
 
-$modal-backdrop-color: rgba(black, .4);
-$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, .65);
+$modal-backdrop-color: rgba(black, 0.4);
+$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, 0.65);
 $modal-backdrop-filter: saturate(200%) blur(4px);
 
 $modal-dialog-margin: 2em 1em;
 $modal-dialog-padding: 1em 2em;
-$modal-dialog-bg-color: darken(white, 2%);
+$modal-dialog-background-color: darken(white, 2%);
 $modal-dialog-border-radius: 1px;
-$modal-dialog-box-shadow: 0 .4rem 1rem rgba(black, .3);
+$modal-dialog-box-shadow: 0 0.4rem 1rem rgba(black, 0.3);
 
 $modal-close-color: #777777;
 $modal-close-font-size: 16px;
 $modal-close-button-size: 30px;
 $modal-close-margin: 4px;
 $modal-close-border-radius: 50%;
-$modal-close-bg-color: transparent;
-$modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%);
+$modal-close-background-color: transparent;
+$modal-close-background-color-hover: darken($modal-dialog-background-color, 5%);
 ```
 
 ## Props
 
-| Name       | Required | Type    | Default   | Description |
-| ---        | ---      | ---     | ---       | ---         |
-| value      | false    | Boolean | false     | The open state of the modal. |
+| Name       | Required | Type    | Default   | Description                                                                                               |
+| ---------- | -------- | ------- | --------- | --------------------------------------------------------------------------------------------------------- |
+| value      | false    | Boolean | false     | The open state of the modal.                                                                              |
 | transition | false    | String  | 'animate' | The name of the [transition](https://vuejs.org/v2/guide/transitions.html) to use for opening and closing. |
 
 ## Events
 
-| Name  | Description |
-| ---   | ---         |
+| Name  | Description                              |
+| ----- | ---------------------------------------- |
 | input | The open state of the modal has changed. |
-| open  | The modal is opened. |
-| close | The modal is closed. |
+| open  | The modal is opened.                     |
+| close | The modal is closed.                     |
 
 ## Development Setup
 

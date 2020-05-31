@@ -1,45 +1,46 @@
-// Z-index
-$z-index-modal-backdrop: 20 !default;
-$z-index-modal-dialog: 30 !default;
+// Backdrop
+$modal-backdrop-color: rgba(black, 0.4) !default;
+$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, 0.4) !default;
+$modal-backdrop-filter: saturate(200%) blur(2px) !default;
 
-// Modal
-$modal-backdrop-color: rgba(black, .4) !default;
-$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, .65) !default;
-$modal-backdrop-filter: saturate(200%) blur(4px) !default;
+// Dialog
+$modal-dialog-margin: 2rem 0 0 0 !default;
+$modal-dialog-border-radius: 1rem 1rem 0 0 !default;
+$modal-dialog-background-color: darken(white, 2%) !default;
+$modal-dialog-box-shadow: 0 0 1rem rgba(black, 0.2) !default;
 
-$modal-dialog-margin: 2em 1em !default;
-$modal-dialog-padding: 1em 2em !default;
-$modal-dialog-bg-color: darken(white, 2%) !default;
-$modal-dialog-border-radius: 1px !default;
-$modal-dialog-box-shadow: 0 .4rem 1rem rgba(black, .3) !default;
-
-$modal-close-color: #777777 !default;
-$modal-close-font-size: 16px !default;
-$modal-close-button-size: 30px !default;
-$modal-close-margin: 4px !default;
+// Close button
+$modal-close-color: #666666 !default;
+$modal-close-font-size: 1rem !default;
+$modal-close-button-size: 2.5rem !default;
+$modal-close-margin: 0.75rem !default;
 $modal-close-border-radius: 50% !default;
-$modal-close-bg-color: transparent !default;
-$modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%) !default;
+$modal-close-background-color: rgba(darken($modal-dialog-background-color, 5%), 0.7) !default;
+$modal-close-background-color-hover: rgba(darken($modal-dialog-background-color, 10%), 0.8) !default;
 
 .modal {
-  position: relative;
+  position: fixed;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  min-width: 100%;
-  min-height: 100vh; // To make sure to not trigger an address bar change from Safari iOS
+  overflow: hidden;
+  pointer-events: auto;
 
-  // Backdrop
+  &-scroll-lock {
+    overflow: hidden;
+    pointer-events: none;
+  }
+
   &-backdrop {
     position: fixed;
-    z-index: $z-index-modal-backdrop;
-    // Extends the backdrop out of the viewport against overscroll visual glitch on Chrome
-    top: -100px;
-    right: -100px;
-    bottom: -100px;
-    left: -100px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background-color: $modal-backdrop-color-no-filter;
     @supports (backdrop-filter: $modal-backdrop-filter) {
       background-color: $modal-backdrop-color;
@@ -47,42 +48,61 @@ $modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%) !default;
     }
   }
 
-  // Dialog
   &-dialog {
     position: relative;
-    z-index: $z-index-modal-dialog;
     box-sizing: border-box;
     margin: $modal-dialog-margin;
-    padding: $modal-dialog-padding;
-    height: 100%;
+    width: 100%;
+    max-width: 576px;
+    height: calc(100% - 1rem);
     border-radius: $modal-dialog-border-radius;
-    background-color: $modal-dialog-bg-color;
+    background-color: $modal-dialog-background-color;
     box-shadow: $modal-dialog-box-shadow;
+    overflow: hidden;
 
-    // Close
-    &-close {
+    &-container {
       position: absolute;
+      z-index: 10;
       top: 0;
       right: 0;
+      bottom: 1rem;
+      left: 0;
+      overflow: auto;
+    }
+
+    &-close {
+      position: absolute;
+      z-index: 20;
+      top: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: $modal-close-margin;
+      padding: 0;
       width: $modal-close-button-size;
       height: $modal-close-button-size;
-      margin: $modal-close-margin;
+      border: 0 none;
       border-radius: $modal-close-border-radius;
       font-size: $modal-close-font-size;
       line-height: $modal-close-button-size;
-      text-align: center;
       color: $modal-close-color;
-      background-color: $modal-close-bg-color;
-      opacity: .4;
+      background-color: $modal-close-background-color;
+      backdrop-filter: saturate(200%) blur(4px);
       cursor: pointer;
       transition: all 250ms ease;
-      &::before {
-        content: "✕";
-      }
       &:hover {
         opacity: 1;
         text-decoration: none;
-        background-color: $modal-close-bg-color-hover;
+        background-color: $modal-close-background-color-hover;
+      }
+      .icon {
+        display: block;
+        width: $modal-close-button-size * 0.3;
+        height: $modal-close-button-size * 0.3;
+        color: $modal-close-color;
+        stroke: $modal-close-color;
+        fill: $modal-close-color;
       }
     }
   }
