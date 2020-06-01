@@ -1,6 +1,6 @@
 // Backdrop
 $modal-backdrop-color: rgba(black, 0.2) !default;
-// $modal-backdrop-filter: saturate(200%) blur(4px) !default;
+// $modal-backdrop-filter: saturate(200%) blur(4px) !default; // Causes performance issue on Google Chrome
 $modal-backdrop-filter: none !default;
 
 // Dialog
@@ -13,13 +13,15 @@ $modal-dialog-background-color: darken(white, 2%) !default;
 $modal-dialog-box-shadow: 0 0 1rem rgba(black, 0.25) !default;
 
 // Close button
-$modal-close-color: #666666 !default;
 $modal-close-font-size: 1rem !default;
 $modal-close-button-size: 2.5rem !default;
 $modal-close-margin: 1rem !default;
 $modal-close-border-radius: 50% !default;
-$modal-close-background-color: rgba(darken($modal-dialog-background-color, 5%), 0.7) !default;
-$modal-close-background-color-hover: rgba(darken($modal-dialog-background-color, 10%), 0.8) !default;
+$modal-close-color: hsla(0, 0%, 10%, 0.9) !default;
+$modal-close-background-color: hsla(0, 0%, 90%, 0.9) !default;
+$modal-close-background-color-hover: hsla(0, 0%, 75%, 0.9) !default;
+// $modal-close-backdrop-filter: saturate(200%) blur(3px) !default;
+$modal-close-backdrop-filter: none !default;
 
 // Breakpoints
 $modal-breakpoint-xs: 576px !default;
@@ -35,26 +37,17 @@ $modal-breakpoint-xl: 1900px !default;
   bottom: 0;
   left: 0;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: space-around;
+  align-items: center;
   overflow: hidden;
-  pointer-events: auto;
   backdrop-filter: $modal-backdrop-filter;
+
+  &-align-start {
+    align-items: flex-start;
+  }
 
   &-scroll-lock {
     overflow: hidden;
-  }
-
-  &-fullscreen {
-    .modal-dialog {
-      margin: 0;
-      height: 100%;
-      max-height: none;
-      border-radius: 0;
-      &-container {
-        bottom: 0;
-      }
-    }
   }
 
   // &-will-close {
@@ -79,24 +72,18 @@ $modal-breakpoint-xl: 1900px !default;
     position: relative;
     z-index: 1;
     box-sizing: border-box;
-    margin-top: $modal-dialog-margin-y;
     width: 100%;
-    height: 100%;
-    border-radius: $modal-dialog-border-radius $modal-dialog-border-radius 0 0;
+    margin: $modal-dialog-margin;
     background-color: $modal-dialog-background-color;
+    border-radius: $modal-dialog-border-radius;
     box-shadow: $modal-dialog-box-shadow;
     overflow: hidden;
 
     &-container {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: $modal-dialog-margin-y;
-      left: 0;
+      min-height: $modal-close-button-size + ($modal-close-margin * 2);
+      max-height: calc(100vh - #{$modal-dialog-margin-y * 2});
       overflow: auto;
       -webkit-overflow-scrolling: touch;
-      // overscroll-behavior-y: auto;
-      // scroll-behavior: smooth;
     }
 
     &-close {
@@ -117,7 +104,7 @@ $modal-breakpoint-xl: 1900px !default;
       line-height: $modal-close-button-size;
       color: $modal-close-color;
       background-color: $modal-close-background-color;
-      backdrop-filter: saturate(200%) blur(4px);
+      backdrop-filter: $modal-close-backdrop-filter;
       cursor: pointer;
       transition: all 250ms ease;
       &:hover {
@@ -132,6 +119,18 @@ $modal-breakpoint-xl: 1900px !default;
         color: $modal-close-color;
         stroke: $modal-close-color;
         fill: $modal-close-color;
+      }
+    }
+  }
+  &-fullscreen {
+    .modal-dialog {
+      margin: 0;
+      height: 100%;
+      max-height: none;
+      border-radius: 0;
+      &-container {
+        max-height: none;
+        height: 100%;
       }
     }
   }
@@ -162,15 +161,16 @@ $modal-breakpoint-xl: 1900px !default;
   }
 }
 
-@media (min-width: $modal-breakpoint-xs + 1) {
+@media (max-width: $modal-breakpoint-xs) {
   .modal {
+    align-items: flex-end;
     &-dialog {
-      margin: $modal-dialog-margin;
-      height: 100%;
-      max-height: calc(100% - #{$modal-dialog-margin-y * 2});
-      border-radius: $modal-dialog-border-radius;
+      margin: $modal-dialog-margin-y 0 0 0;
+      height: calc(100% - #{$modal-dialog-margin-y});
+      border-radius: $modal-dialog-border-radius $modal-dialog-border-radius 0 0;
       &-container {
-        bottom: 0;
+        height: 100%;
+        max-height: none;
       }
     }
   }

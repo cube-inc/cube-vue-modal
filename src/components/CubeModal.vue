@@ -73,22 +73,19 @@ export default {
       modal.classList.remove(this.transitionEnterActiveClassName)
     },
     onTouchMove(event) {
-      if (this.isScrollAtTop) {
+      if (this.isScrollAtTop || this.isScrollAtBottom) {
         this.willClose = false
         const offset = event.layerY - this.touchstartY
-        if (offset >= 0) {
+        if (this.isScrollAtTop && offset >= 0) {
           event.preventDefault()
           this.$refs.dialog.style.transform = `translateY(${offset}px)`
           this.willClose = offset >= this.closeThreshold && event.layerY >= this.touchmoveY
         }
-        this.touchmoveY = event.layerY
-      } else if (this.isScrollAtBottom) {
-        this.willClose = false
-        const offset = event.layerY - this.touchstartY
-        if (offset <= 0) {
+        if (this.isScrollAtBottom && offset < 0) {
           event.preventDefault()
           this.$refs.container.style.transform = `translateY(${offset * 0.25}px)`
         }
+        this.touchmoveY = event.layerY
       }
     },
     onTouchEnd(event) {
