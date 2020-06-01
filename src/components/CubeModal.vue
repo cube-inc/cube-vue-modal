@@ -49,6 +49,11 @@ export default {
       willClose: false
     }
   },
+  computed: {
+    transitionEnterActiveClassName() {
+      return `${this.transitionName}-enter-active`
+    }
+  },
   watch: {
     value(value) {
       if (this.opened !== value) {
@@ -73,7 +78,7 @@ export default {
         const offset = layerY - this.touchstartY
         if (offset >= 0) {
           event.preventDefault()
-          this.willClose = layerY >= this.touchmoveY && offset > 192
+          this.willClose = layerY >= this.touchmoveY && offset > window.innerHeight / 2
           const { dialog } = this.$refs
           window.requestAnimationFrame(() => {
             Object.assign(dialog.style, {
@@ -95,12 +100,11 @@ export default {
         })
         this.close()
       } else {
-        const transitionClassName = `${this.transitionName}-enter-active`
         this.$once('dialog-transitionend', () => {
-          modal.classList.remove(transitionClassName)
+          modal.classList.remove(this.transitionEnterActiveClassName)
         })
         window.requestAnimationFrame(() => {
-          modal.classList.add(transitionClassName)
+          modal.classList.add(this.transitionEnterActiveClassName)
           Object.assign(dialog.style, {
             transform: ''
           })
