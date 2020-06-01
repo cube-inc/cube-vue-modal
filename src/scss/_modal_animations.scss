@@ -8,7 +8,6 @@
       > .modal-dialog {
         transition: all 350ms cubic-bezier(0.3, 1.17, 0.5, 1);
         > .modal-dialog-container {
-          @debug &;
           transition: all 350ms cubic-bezier(0.3, 1.17, 0.5, 1);
         }
       }

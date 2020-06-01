@@ -95,6 +95,8 @@ $modal-breakpoint-xl: 1900px !default;
       left: 0;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
+      // overscroll-behavior-y: auto;
+      // scroll-behavior: smooth;
     }
 
     &-close {
