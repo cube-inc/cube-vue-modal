@@ -8,7 +8,8 @@
   >
     <div v-if="opened" class="modal" v-bind="$attrs">
       <div class="modal-backdrop" @click.self.stop="close"></div>
-      <div class="modal-dialog">
+      <!-- <div v-if="willClose" class="modal-will-close">×</div> -->
+      <div ref="dialog" class="modal-dialog" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
         <button class="modal-dialog-close" @click="close">
           <svg xmlns="http://www.w3.org/2000/svg" width="77.429" height="77.417" viewBox="0 0 77.429 77.417" class="icon">
             <path
@@ -17,7 +18,7 @@
             />
           </svg>
         </button>
-        <div class="modal-dialog-container">
+        <div ref="container" class="modal-dialog-container">
           <slot />
         </div>
       </div>
@@ -35,8 +36,12 @@ export default {
   data() {
     this.scrollX = null
     this.scrollY = null
+    this.touchstartY = null
+    this.touchmoveY = null
+    this.isScrollToTop = false
     return {
-      opened: false
+      opened: false,
+      willClose: false
     }
   },
   watch: {
@@ -47,27 +52,79 @@ export default {
     }
   },
   methods: {
+    onTouchStart(event) {
+      const { layerY } = event
+      this.willClose = false
+      this.touchstartY = this.touchmoveY = layerY
+      this.isScrollToTop = this.$refs.container.scrollTop === 0
+    },
+    onTouchMove(event) {
+      if (this.isScrollToTop) {
+        const { layerY } = event
+        const offset = layerY - this.touchstartY
+        this.touchmoveY = layerY
+        if (offset >= 0) {
+          event.preventDefault()
+          const moveDown = this.touchmoveY <= layerY
+          if (moveDown && offset > 192) {
+            this.willClose = true
+          } else {
+            this.willClose = false
+          }
+          window.requestAnimationFrame(() => {
+            Object.assign(this.$refs.dialog.style, {
+              transition: '',
+              transform: `translateY(${offset}px)`
+            })
+          })
+        } else {
+          this.willClose = false
+        }
+      } else {
+        this.willClose = false
+      }
+    },
+    onTouchEnd(event) {
+      const { dialog } = this.$refs
+      if (this.willClose) {
+        this.willClose = false
+        window.requestAnimationFrame(() => {
+          Object.assign(dialog.style, {
+            transition: '',
+            transform: ''
+          })
+        })
+        this.close()
+      } else {
+        window.requestAnimationFrame(() => {
+          Object.assign(dialog.style, {
+            transition: 'all 100ms ease',
+            transform: ''
+          })
+        })
+      }
+    },
     lockScroll() {
       window.requestAnimationFrame(() => {
-        const { scrollX, scrollY } = window
-        this.scrollX = scrollX
-        this.scrollY = scrollY
+        // const { scrollX, scrollY } = window
+        // this.scrollX = scrollX
+        // this.scrollY = scrollY
         document.body.classList.add('modal-scroll-lock')
-        Object.assign(this.$root.$el.style, {
-          pointerEvent: 'none',
-          transform: `translateY(-${scrollY}px)`
-        })
-        window.scrollTo(0, 0)
+        // Object.assign(this.$root.$el.style, {
+        //   pointerEvent: 'none',
+        //   transform: `translateY(-${scrollY}px)`
+        // })
+        // window.scrollTo(0, 0)
       })
     },
     unlockScroll() {
       window.requestAnimationFrame(() => {
-        Object.assign(this.$root.$el.style, {
-          pointerEvent: '',
-          transform: ''
-        })
+        // Object.assign(this.$root.$el.style, {
+        //   pointerEvent: '',
+        //   transform: ''
+        // })
         document.body.classList.remove('modal-scroll-lock')
-        window.scrollTo(this.scrollX, this.scrollY)
+        // window.scrollTo(this.scrollX, this.scrollY)
       })
     },
     open() {
