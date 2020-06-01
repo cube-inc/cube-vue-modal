@@ -83,7 +83,7 @@ export default {
         }
         if (this.isScrollAtBottom && offset < 0) {
           event.preventDefault()
-          this.$refs.container.style.transform = `translateY(${offset * 0.25}px)`
+          this.$refs.container.style.transform = `translateY(${offset * 0.4}px)`
         }
         this.touchmoveY = event.layerY
       }
