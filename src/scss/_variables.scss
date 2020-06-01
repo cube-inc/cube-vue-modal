@@ -2,9 +2,8 @@
 $text-color: #283352;
 
 // Types
-$line-height-base: 1.5;
-$font-family-base: "Avenir Next", "Roboto", sans-serif;
+$font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol';
 $font-weight-base: normal;
-$font-size-base: 1em; // iOS zooms the page to show a larger input field if its font-size is less than 16px/1em.
-$font-size-sm: .8em;
-$font-size-xs: .6em;
+$line-height-base: 1.5;
+$font-size-base: 1em;

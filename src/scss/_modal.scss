@@ -36,10 +36,22 @@ $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color,
     // min-height: 100vh; // To make sure to not trigger an address bar change from Safari iOS
   }
 
+  &-top {
+    .modal-dialog {
+      margin: 0;
+      height: 100%;
+      border-radius: 0;
+      &-container {
+        bottom: 0;
+      }
+    }
+  }
+
   &-fullscreen {
     .modal-dialog {
       margin: 0;
       height: 100%;
+      max-width: none;
       border-radius: 0;
       &-container {
         bottom: 0;
