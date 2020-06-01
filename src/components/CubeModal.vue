@@ -6,10 +6,17 @@
     @after-enter="$emit('after-enter')"
     @after-leave="$emit('after-leave')"
   >
-    <div v-if="opened" class="modal" v-bind="$attrs">
+    <div v-if="opened" ref="modal" class="modal" v-bind="$attrs">
       <div class="modal-backdrop" @click.self.stop="close"></div>
       <!-- <div v-if="willClose" class="modal-will-close">×</div> -->
-      <div ref="dialog" class="modal-dialog" @touchstart="onTouchStart" @touchmove="onTouchMove" @touchend="onTouchEnd">
+      <div
+        ref="dialog"
+        class="modal-dialog"
+        @touchstart="onTouchStart"
+        @touchmove="onTouchMove"
+        @touchend="onTouchEnd"
+        @transitionend="$emit('dialog-transitionend')"
+      >
         <button class="modal-dialog-close" @click="close">
           <svg xmlns="http://www.w3.org/2000/svg" width="77.429" height="77.417" viewBox="0 0 77.429 77.417" class="icon">
             <path
@@ -34,8 +41,6 @@ export default {
     transitionName: { type: String, default: 'animate' }
   },
   data() {
-    this.scrollX = null
-    this.scrollY = null
     this.touchstartY = null
     this.touchmoveY = null
     this.isScrollToTop = false
@@ -52,6 +57,9 @@ export default {
     }
   },
   methods: {
+    $log(message) {
+      console.debug(message)
+    },
     onTouchStart(event) {
       const { layerY } = event
       this.willClose = false
@@ -60,45 +68,40 @@ export default {
     },
     onTouchMove(event) {
       if (this.isScrollToTop) {
+        this.willClose = false
         const { layerY } = event
         const offset = layerY - this.touchstartY
-        this.touchmoveY = layerY
         if (offset >= 0) {
           event.preventDefault()
-          const moveDown = this.touchmoveY <= layerY
-          if (moveDown && offset > 192) {
-            this.willClose = true
-          } else {
-            this.willClose = false
-          }
+          this.willClose = layerY >= this.touchmoveY && offset > 192
+          const { dialog } = this.$refs
           window.requestAnimationFrame(() => {
-            Object.assign(this.$refs.dialog.style, {
-              transition: '',
+            Object.assign(dialog.style, {
               transform: `translateY(${offset}px)`
             })
           })
-        } else {
-          this.willClose = false
         }
-      } else {
-        this.willClose = false
+        this.touchmoveY = layerY
       }
     },
     onTouchEnd(event) {
-      const { dialog } = this.$refs
+      const { modal, dialog } = this.$refs
       if (this.willClose) {
         this.willClose = false
         window.requestAnimationFrame(() => {
           Object.assign(dialog.style, {
-            transition: '',
             transform: ''
           })
         })
         this.close()
       } else {
+        const transitionClassName = `${this.transitionName}-enter-active`
+        this.$once('dialog-transitionend', () => {
+          modal.classList.remove(transitionClassName)
+        })
         window.requestAnimationFrame(() => {
+          modal.classList.add(transitionClassName)
           Object.assign(dialog.style, {
-            transition: 'all 100ms ease',
             transform: ''
           })
         })
@@ -106,25 +109,12 @@ export default {
     },
     lockScroll() {
       window.requestAnimationFrame(() => {
-        // const { scrollX, scrollY } = window
-        // this.scrollX = scrollX
-        // this.scrollY = scrollY
         document.body.classList.add('modal-scroll-lock')
-        // Object.assign(this.$root.$el.style, {
-        //   pointerEvent: 'none',
-        //   transform: `translateY(-${scrollY}px)`
-        // })
-        // window.scrollTo(0, 0)
       })
     },
     unlockScroll() {
       window.requestAnimationFrame(() => {
-        // Object.assign(this.$root.$el.style, {
-        //   pointerEvent: '',
-        //   transform: ''
-        // })
         document.body.classList.remove('modal-scroll-lock')
-        // window.scrollTo(this.scrollX, this.scrollY)
       })
     },
     open() {
@@ -154,13 +144,13 @@ export default {
     }
   },
   mounted() {
-    document.body.appendChild(this.$el)
+    // document.body.appendChild(this.$el)
   },
   beforeDestroy() {
     if (this.opened) {
       this.unlockScroll()
     }
-    document.body.removeChild(this.$el)
+    // document.body.removeChild(this.$el)
   }
 }
 </script>
