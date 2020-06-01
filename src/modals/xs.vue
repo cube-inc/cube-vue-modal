@@ -1,7 +1,7 @@
 <template>
   <CubeModal class="modal-xs" v-bind="$attrs" v-on="$listeners">
     <header>
-      <h1>XS modal</h1>
+      <h1 class="modal-title">XS modal</h1>
     </header>
     <main>
       <p>

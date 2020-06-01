@@ -122,6 +122,10 @@ $modal-breakpoint-xl: 1900px !default;
       }
     }
   }
+  &-title {
+    line-height: $modal-close-button-size;
+    font-size: $modal-close-button-size;
+  }
   &-fullscreen {
     .modal-dialog {
       margin: 0;

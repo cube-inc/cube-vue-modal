@@ -1,7 +1,7 @@
 <template>
   <CubeModal class="modal-sm" v-bind="$attrs" v-on="$listeners">
     <header>
-      <h1>SM modal</h1>
+      <h1 class="modal-title">SM modal</h1>
     </header>
     <aside>
       <PicsumPhotos />

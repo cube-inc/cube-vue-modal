@@ -4,7 +4,7 @@
       <PicsumPhotos />
     </aside>
     <header>
-      <h1>Fullscreen modal</h1>
+      <h1 class="modal-title">Fullscreen modal</h1>
     </header>
     <main>
       <p>
