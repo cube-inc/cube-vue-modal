@@ -12,6 +12,7 @@ body {
   line-height: $line-height-base;
   color: $text-color;
   background-color: white;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 .container {
   margin: 0 auto;
@@ -28,6 +29,7 @@ body {
 }
 h1 {
   margin: 1em 0;
+  font-size: 3em;
   small {
     display: block;
     font-size: 60%;
@@ -38,15 +40,24 @@ h1 {
   display: block;
   width: 100%;
   height: auto;
+  object-fit: cover;
+  &.lazy {
+    opacity: 0;
+    transition: opacity 450ms ease;
+    &.loaded {
+      opacity: 1;
+    }
+  }
 }
 .button {
   cursor: pointer;
   margin: 0;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   border: 0 none;
   border-radius: 0.25rem;
   background-color: $text-color;
   color: white;
+  font-size: inherit;
   text-transform: uppercase;
   &:hover {
     background-color: rgba($text-color, 0.9);
@@ -54,12 +65,19 @@ h1 {
   &:active {
     background-color: rgba($text-color, 0.8);
   }
+  &-list {
+    margin: -0.25rem;
+    > .button {
+      margin: 0.25rem;
+    }
+  }
 }
 .modal-dialog-container {
   > header {
     margin: 1rem;
     h1 {
       margin: 0;
+      font-size: 2em;
     }
   }
   > main {

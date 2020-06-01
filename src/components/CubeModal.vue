@@ -6,7 +6,7 @@
     @after-enter="$emit('after-enter')"
     @after-leave="$emit('after-leave')"
   >
-    <div ref="modal" v-if="opened" class="modal" v-bind="$attrs">
+    <div v-if="opened" class="modal" v-bind="$attrs">
       <div class="modal-backdrop" @click.self.stop="close"></div>
       <div class="modal-dialog">
         <button class="modal-dialog-close" @click="close">
@@ -17,7 +17,7 @@
             />
           </svg>
         </button>
-        <div ref="container" class="modal-dialog-container">
+        <div class="modal-dialog-container">
           <slot />
         </div>
       </div>
@@ -33,53 +33,77 @@ export default {
     transitionName: { type: String, default: 'animate' }
   },
   data() {
+    this.scrollX = null
+    this.scrollY = null
     return {
       opened: false
     }
   },
   watch: {
     value(value) {
-      value ? this.open() : this.close()
+      if (this.opened !== value) {
+        value ? this.open() : this.close()
+      }
     }
   },
   methods: {
     lockScroll() {
-      document.body.classList.add('modal-scroll-lock')
+      window.requestAnimationFrame(() => {
+        const { scrollX, scrollY } = window
+        this.scrollX = scrollX
+        this.scrollY = scrollY
+        document.body.classList.add('modal-scroll-lock')
+        Object.assign(this.$root.$el.style, {
+          pointerEvent: 'none',
+          transform: `translateY(-${scrollY}px)`
+        })
+        window.scrollTo(0, 0)
+      })
     },
     unlockScroll() {
-      document.body.classList.remove('modal-scroll-lock')
+      window.requestAnimationFrame(() => {
+        Object.assign(this.$root.$el.style, {
+          pointerEvent: '',
+          transform: ''
+        })
+        document.body.classList.remove('modal-scroll-lock')
+        window.scrollTo(this.scrollX, this.scrollY)
+      })
     },
     open() {
       return new Promise((resolve) => {
         this.$once('after-enter', resolve)
-        this.opened = true
         this.lockScroll()
-        this.$nextTick(() => {
-          // this.$refs.container.focus()
+        this.opened = true
+        if (this.value !== true) {
           this.$emit('input', true)
-          this.$emit('open', this)
-        })
+        }
+        this.$emit('open', this)
       })
     },
-    close(options) {
+    close() {
       return new Promise((resolve) => {
         this.$once('after-leave', resolve)
         this.opened = false
         this.unlockScroll()
-        this.$nextTick(() => {
+        if (this.value !== false) {
           this.$emit('input', false)
-          this.$emit('close', this)
-        })
+        }
+        this.$emit('close', this)
       })
     },
     toggle() {
       return this.opened ? this.close() : this.open()
     }
   },
+  mounted() {
+    document.body.appendChild(this.$el)
+  },
   beforeDestroy() {
     if (this.opened) {
       this.unlockScroll()
     }
+    document.body.removeChild(this.$el)
   }
 }
 </script>

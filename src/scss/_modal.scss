@@ -1,7 +1,6 @@
 // Backdrop
-$modal-backdrop-color: rgba(black, 0.4) !default;
-$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, 0.4) !default;
-$modal-backdrop-filter: saturate(200%) blur(2px) !default;
+$modal-backdrop-color: rgba(black, 0.5) !default;
+$modal-backdrop-filter: saturate(200%) blur(10px) !default;
 
 // Dialog
 $modal-dialog-margin: 2rem 0 0 0 !default;
@@ -13,7 +12,7 @@ $modal-dialog-box-shadow: 0 0 1rem rgba(black, 0.2) !default;
 $modal-close-color: #666666 !default;
 $modal-close-font-size: 1rem !default;
 $modal-close-button-size: 2.5rem !default;
-$modal-close-margin: 0.75rem !default;
+$modal-close-margin: 1rem !default;
 $modal-close-border-radius: 50% !default;
 $modal-close-background-color: rgba(darken($modal-dialog-background-color, 5%), 0.7) !default;
 $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color, 10%), 0.8) !default;
@@ -31,8 +30,21 @@ $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color,
   pointer-events: auto;
 
   &-scroll-lock {
+    // position: fixed;
     overflow: hidden;
-    pointer-events: none;
+    // height: 100vh;
+    // min-height: 100vh; // To make sure to not trigger an address bar change from Safari iOS
+  }
+
+  &-fullscreen {
+    .modal-dialog {
+      margin: 0;
+      height: 100%;
+      border-radius: 0;
+      &-container {
+        bottom: 0;
+      }
+    }
   }
 
   &-backdrop {
@@ -41,11 +53,8 @@ $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color,
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: $modal-backdrop-color-no-filter;
-    @supports (backdrop-filter: $modal-backdrop-filter) {
-      background-color: $modal-backdrop-color;
-      backdrop-filter: $modal-backdrop-filter;
-    }
+    background-color: $modal-backdrop-color;
+    backdrop-filter: $modal-backdrop-filter;
   }
 
   &-dialog {
@@ -56,18 +65,19 @@ $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color,
     max-width: 576px;
     height: calc(100% - 1rem);
     border-radius: $modal-dialog-border-radius;
-    background-color: $modal-dialog-background-color;
     box-shadow: $modal-dialog-box-shadow;
     overflow: hidden;
 
     &-container {
       position: absolute;
-      z-index: 10;
       top: 0;
       right: 0;
       bottom: 1rem;
       left: 0;
+      border-radius: inherit;
+      background-color: $modal-dialog-background-color;
       overflow: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     &-close {

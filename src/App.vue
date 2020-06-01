@@ -9,10 +9,14 @@
         <p class="lead">{{ description }}</p>
       </header>
       <section class="section content">
-        <button class="button" type="button" :disabled="modalOpen" @click="modalOpen = true">Open modal form prop</button>
+        <div class="button-list">
+          <button class="button" type="button" :disabled="modals.default" @click="modals.default = true">Open modal form prop</button>
+          <button class="button" type="button" :disabled="modals.small" @click="modals.small = true">Small modal</button>
+          <button class="button" type="button" :disabled="modals.fullscreen" @click="modals.fullscreen = true">Fullscreen modal</button>
+        </div>
       </section>
       <section class="section">
-        <img class="image" src="https://picsum.photos/1920/1080/" alt="Picsum photos" />
+        <img class="image" v-lazy :src="pictureUrl" alt="Picsum photos" />
       </section>
       <section class="section content">
         <p>
@@ -22,26 +26,15 @@
           pharetra at, vestibulum in ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </p>
       </section>
-      <section class="section">
-        <img class="image" src="https://picsum.photos/1920/1080/" alt="Picsum photos" />
-      </section>
       <section class="section content">
-        <button class="button" type="button" :disabled="modalOpen" @click="openModal">Open modal from open()</button>
+        <button class="button" type="button" :disabled="modals.default" @click="openModal">Open modal from open()</button>
       </section>
-      <section class="section content">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rutrum quam ac justo suscipit commodo. Mauris dignissim iaculis
-          egestas. Fusce eleifend finibus dignissim. Phasellus pharetra tincidunt tellus vel posuere. Praesent feugiat luctus dui, eget
-          mollis purus accumsan eget. Etiam iaculis dui felis, ut finibus tortor sollicitudin sit amet. Pellentesque nisi velit, posuere eu
-          pharetra at, vestibulum in ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        </p>
-      </section>
-      <CubeModal ref="modal" v-model="modalOpen" @after-enter="$log('Modal opened')" @after-leave="$log('Modal closed')">
+      <CubeModal ref="modal" v-model="modals.default" @after-enter="$log('Modal opened')" @after-leave="$log('Modal closed')">
         <header>
           <h1>Modal Title</h1>
         </header>
         <aside>
-          <img class="image" src="https://picsum.photos/1920/1080/" alt="Picsum photos" />
+          <img class="image" v-lazy :src="pictureUrl" alt="Picsum photos" />
         </aside>
         <main>
           <p>
@@ -68,7 +61,48 @@
           </p>
         </main>
         <footer>
-          <button class="button" type="button" @click="modalOpen = false">Close</button>
+          <button class="button" type="button" @click="modals.default = false">Close</button>
+        </footer>
+      </CubeModal>
+      <CubeModal v-model="modals.small">
+        <header>
+          <h1>Small Modal Title</h1>
+        </header>
+        <main>
+          <p>
+            Nullam euismod odio id convallis tincidunt. Morbi non porta dolor, eget sagittis nulla. Integer sapien mi, pellentesque vitae
+            magna ut, laoreet convallis purus. Aliquam enim leo, accumsan eu gravida sit amet, cursus nec dolor. Donec dapibus et massa vel
+            volutpat. Sed et mauris at orci ultricies viverra. Nam sit amet venenatis ligula. Nulla erat dolor, consequat a elementum eu,
+            luctus et felis.
+          </p>
+        </main>
+      </CubeModal>
+      <CubeModal v-model="modals.fullscreen" class="modal-fullscreen">
+        <header>
+          <h1>Fullscreen Title</h1>
+        </header>
+        <main>
+          <p>You juste have to add the <code>.modal-fullscreen</code> class to the component.</p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aperiam at cumque neque tempore corrupti vero. Ipsum, blanditiis
+            sequi! Porro earum velit tenetur animi nisi delectus fuga aspernatur. Ipsum, esse? Itaque, autem eos. Obcaecati consectetur in
+            voluptate doloribus perspiciatis saepe magnam, odit illo non numquam assumenda? Sint adipisci molestiae repellat libero sunt aut
+            beatae facere voluptatem nihil inventore. Ratione quibusdam nobis reiciendis alias fugit adipisci, ut facere, laboriosam iusto
+            placeat saepe expedita corrupti nisi amet esse id? Illo sapiente libero excepturi cumque reprehenderit itaque architecto
+            laboriosam, officiis iste facilis ipsa officia suscipit nihil. Ullam voluptate nihil eaque a earum qui? Nostrum!
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Distinctio quae, nobis dolorem quia, beatae a quos inventore
+            voluptatem quibusdam perspiciatis aliquam. Excepturi laboriosam ullam error nam dolorum consequatur consectetur quas iste,
+            nesciunt, suscipit alias sequi qui id. Nihil aspernatur, ducimus porro sunt repellat est nesciunt accusamus, tempore pariatur
+            laudantium nam.
+          </p>
+        </main>
+        <aside>
+          <img class="image" v-lazy :src="pictureUrl" alt="Picsum photos" />
+        </aside>
+        <footer>
+          <button class="button" type="button" @click="modals.fullscreen = false">Close</button>
         </footer>
       </CubeModal>
     </div>
@@ -84,14 +118,31 @@ export default {
   components: {
     CubeModal
   },
+  directives: {
+    lazy: {
+      inserted: function (el) {
+        el.classList.add('lazy')
+        el.onload = () => {
+          el.classList.add('loaded')
+        }
+      }
+    }
+  },
   data() {
     const { name, version, description } = this.$root.$options.packageInfo
     return {
       name,
       version,
       description,
-      modalOpen: false
+      modals: {
+        default: false,
+        small: false,
+        fullscreen: false
+      }
     }
+  },
+  computed: {
+    pictureUrl: () => `https://picsum.photos/1920/1080/`
   },
   methods: {
     $log(message) {
@@ -99,6 +150,9 @@ export default {
     },
     $alert(message) {
       alert(message)
+    },
+    onImageLoad(event) {
+      event.target.classList.add('loaded')
     },
     async openModal() {
       await this.$refs.modal.open()
