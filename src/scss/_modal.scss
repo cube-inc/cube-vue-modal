@@ -1,6 +1,7 @@
 // Backdrop
 $modal-backdrop-color: rgba(black, 0.5) !default;
-$modal-backdrop-filter: saturate(200%) blur(4px) !default;
+// $modal-backdrop-filter: saturate(200%) blur(4px) !default;
+$modal-backdrop-filter: none !default;
 
 // Dialog
 $modal-dialog-margin-top: 2rem !default;
