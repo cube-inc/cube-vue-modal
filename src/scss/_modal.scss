@@ -1,18 +1,16 @@
 // Backdrop
-$modal-backdrop-color: rgba(black, 0.5) !default;
+$modal-backdrop-color: rgba(black, 0.2) !default;
 // $modal-backdrop-filter: saturate(200%) blur(4px) !default;
 $modal-backdrop-filter: none !default;
 
 // Dialog
-$modal-dialog-margin-top: 2rem !default;
-$modal-dialog-margin-right: 0 !default;
-$modal-dialog-margin-bottom: 0 !default;
-$modal-dialog-margin-left: 0 !default;
-$modal-dialog-margin: $modal-dialog-margin-top $modal-dialog-margin-right $modal-dialog-margin-bottom $modal-dialog-margin-left !default;
+$modal-dialog-margin-y: 2rem !default;
+$modal-dialog-margin-x: 1rem !default;
+$modal-dialog-margin: $modal-dialog-margin-y $modal-dialog-margin-x !default;
 $modal-dialog-margin-overscroll: 1rem !default;
-$modal-dialog-border-radius: 1rem 1rem 0 0 !default;
+$modal-dialog-border-radius: 1rem !default;
 $modal-dialog-background-color: darken(white, 2%) !default;
-$modal-dialog-box-shadow: 0 0 1rem rgba(black, 0.2) !default;
+$modal-dialog-box-shadow: 0 0 1rem rgba(black, 0.25) !default;
 
 // Close button
 $modal-close-color: #666666 !default;
@@ -51,6 +49,7 @@ $modal-breakpoint-xl: 1900px !default;
     .modal-dialog {
       margin: 0;
       height: 100%;
+      max-height: none;
       border-radius: 0;
       &-container {
         bottom: 0;
@@ -78,11 +77,12 @@ $modal-breakpoint-xl: 1900px !default;
 
   &-dialog {
     position: relative;
+    z-index: 1;
     box-sizing: border-box;
-    margin: $modal-dialog-margin;
+    margin-top: $modal-dialog-margin-y;
     width: 100%;
-    height: calc(100vh + #{$modal-dialog-margin-overscroll});
-    border-radius: $modal-dialog-border-radius;
+    height: 100%;
+    border-radius: $modal-dialog-border-radius $modal-dialog-border-radius 0 0;
     background-color: $modal-dialog-background-color;
     box-shadow: $modal-dialog-box-shadow;
     overflow: hidden;
@@ -91,9 +91,8 @@ $modal-breakpoint-xl: 1900px !default;
       position: absolute;
       top: 0;
       right: 0;
-      bottom: $modal-dialog-margin-top + $modal-dialog-margin-bottom + $modal-dialog-margin-overscroll;
+      bottom: $modal-dialog-margin-y;
       left: 0;
-      border-radius: inherit;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
     }
@@ -157,6 +156,20 @@ $modal-breakpoint-xl: 1900px !default;
   &-xl {
     .modal-dialog {
       max-width: $modal-breakpoint-xl;
+    }
+  }
+}
+
+@media (min-width: $modal-breakpoint-xs + 1) {
+  .modal {
+    &-dialog {
+      margin: $modal-dialog-margin;
+      height: 100%;
+      max-height: calc(100% - #{$modal-dialog-margin-y * 2});
+      border-radius: $modal-dialog-border-radius;
+      &-container {
+        bottom: 0;
+      }
     }
   }
 }

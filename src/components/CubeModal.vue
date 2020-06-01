@@ -43,7 +43,8 @@ export default {
   data() {
     this.touchstartY = null
     this.touchmoveY = null
-    this.isScrollToTop = false
+    this.isScrollAtTop = false
+    this.closeThreshold = null
     return {
       opened: false,
       willClose: false
@@ -62,64 +63,54 @@ export default {
     }
   },
   methods: {
-    $log(message) {
-      console.debug(message)
-    },
     onTouchStart(event) {
-      const { layerY } = event
+      const { modal, container } = this.$refs
       this.willClose = false
-      this.touchstartY = this.touchmoveY = layerY
-      this.isScrollToTop = this.$refs.container.scrollTop === 0
+      this.touchstartY = this.touchmoveY = event.layerY
+      this.isScrollAtTop = container.scrollTop === 0
+      this.isScrollAtBottom = container.scrollHeight - container.scrollTop === container.clientHeight
+      this.closeThreshold = window.innerHeight / 2
+      modal.classList.remove(this.transitionEnterActiveClassName)
     },
     onTouchMove(event) {
-      if (this.isScrollToTop) {
+      if (this.isScrollAtTop) {
         this.willClose = false
-        const { layerY } = event
-        const offset = layerY - this.touchstartY
+        const offset = event.layerY - this.touchstartY
         if (offset >= 0) {
           event.preventDefault()
-          this.willClose = layerY >= this.touchmoveY && offset > window.innerHeight / 2
-          const { dialog } = this.$refs
-          window.requestAnimationFrame(() => {
-            Object.assign(dialog.style, {
-              transform: `translateY(${offset}px)`
-            })
-          })
+          this.$refs.dialog.style.transform = `translateY(${offset}px)`
+          this.willClose = offset >= this.closeThreshold && event.layerY >= this.touchmoveY
         }
-        this.touchmoveY = layerY
+        this.touchmoveY = event.layerY
+      } else if (this.isScrollAtBottom) {
+        this.willClose = false
+        const offset = event.layerY - this.touchstartY
+        if (offset <= 0) {
+          event.preventDefault()
+          this.$refs.container.style.transform = `translateY(${offset * 0.25}px)`
+        }
       }
     },
     onTouchEnd(event) {
-      const { modal, dialog } = this.$refs
+      const { modal, dialog, container } = this.$refs
       if (this.willClose) {
         this.willClose = false
-        window.requestAnimationFrame(() => {
-          Object.assign(dialog.style, {
-            transform: ''
-          })
-        })
+        dialog.style.transform = ''
         this.close()
       } else {
         this.$once('dialog-transitionend', () => {
           modal.classList.remove(this.transitionEnterActiveClassName)
         })
-        window.requestAnimationFrame(() => {
-          modal.classList.add(this.transitionEnterActiveClassName)
-          Object.assign(dialog.style, {
-            transform: ''
-          })
-        })
+        modal.classList.add(this.transitionEnterActiveClassName)
+        dialog.style.transform = ''
+        container.style.transform = ''
       }
     },
     lockScroll() {
-      window.requestAnimationFrame(() => {
-        document.body.classList.add('modal-scroll-lock')
-      })
+      document.body.classList.add('modal-scroll-lock')
     },
     unlockScroll() {
-      window.requestAnimationFrame(() => {
-        document.body.classList.remove('modal-scroll-lock')
-      })
+      document.body.classList.remove('modal-scroll-lock')
     },
     open() {
       return new Promise((resolve) => {
@@ -147,14 +138,10 @@ export default {
       return this.opened ? this.close() : this.open()
     }
   },
-  mounted() {
-    // document.body.appendChild(this.$el)
-  },
   beforeDestroy() {
     if (this.opened) {
       this.unlockScroll()
     }
-    // document.body.removeChild(this.$el)
   }
 }
 </script>
