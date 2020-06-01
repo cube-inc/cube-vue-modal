@@ -16,7 +16,7 @@ body {
 }
 .container {
   margin: 0 auto;
-  max-width: 768px;
+  max-width: $modal-breakpoint-md;
 }
 .content {
   padding: 1rem;
@@ -41,7 +41,7 @@ h1 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  &.lazy {
+  &-lazy {
     opacity: 0;
     transition: opacity 450ms ease;
     &.loaded {
@@ -59,8 +59,10 @@ h1 {
   color: white;
   font-size: inherit;
   text-transform: uppercase;
-  &:hover {
-    background-color: rgba($text-color, 0.9);
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba($text-color, 0.9);
+    }
   }
   &:active {
     background-color: rgba($text-color, 0.8);
@@ -92,5 +94,12 @@ h1 {
   }
   > footer {
     margin: 2rem 1rem;
+  }
+}
+.modal-fullscreen {
+  .modal-dialog-container {
+    > aside {
+      height: 65vh;
+    }
   }
 }

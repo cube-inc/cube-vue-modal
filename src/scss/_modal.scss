@@ -1,9 +1,14 @@
 // Backdrop
 $modal-backdrop-color: rgba(black, 0.5) !default;
-$modal-backdrop-filter: saturate(200%) blur(10px) !default;
+$modal-backdrop-filter: saturate(200%) blur(4px) !default;
 
 // Dialog
-$modal-dialog-margin: 2rem 0 0 0 !default;
+$modal-dialog-margin-top: 2rem !default;
+$modal-dialog-margin-right: 0 !default;
+$modal-dialog-margin-bottom: 0 !default;
+$modal-dialog-margin-left: 0 !default;
+$modal-dialog-margin: $modal-dialog-margin-top $modal-dialog-margin-right $modal-dialog-margin-bottom $modal-dialog-margin-left !default;
+$modal-dialog-margin-overscroll: 1rem !default;
 $modal-dialog-border-radius: 1rem 1rem 0 0 !default;
 $modal-dialog-background-color: darken(white, 2%) !default;
 $modal-dialog-box-shadow: 0 0 1rem rgba(black, 0.2) !default;
@@ -17,6 +22,13 @@ $modal-close-border-radius: 50% !default;
 $modal-close-background-color: rgba(darken($modal-dialog-background-color, 5%), 0.7) !default;
 $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color, 10%), 0.8) !default;
 
+// Breakpoints
+$modal-breakpoint-xs: 576px !default;
+$modal-breakpoint-sm: 768px !default;
+$modal-breakpoint-md: 992px !default;
+$modal-breakpoint-lg: 1200px !default;
+$modal-breakpoint-xl: 1900px !default;
+
 .modal {
   position: fixed;
   top: 0;
@@ -28,30 +40,16 @@ $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color,
   align-items: flex-start;
   overflow: hidden;
   pointer-events: auto;
+  backdrop-filter: $modal-backdrop-filter;
 
   &-scroll-lock {
-    // position: fixed;
     overflow: hidden;
-    // height: 100vh;
-    // min-height: 100vh; // To make sure to not trigger an address bar change from Safari iOS
-  }
-
-  &-top {
-    .modal-dialog {
-      margin: 0;
-      height: 100%;
-      border-radius: 0;
-      &-container {
-        bottom: 0;
-      }
-    }
   }
 
   &-fullscreen {
     .modal-dialog {
       margin: 0;
       height: 100%;
-      max-width: none;
       border-radius: 0;
       &-container {
         bottom: 0;
@@ -66,7 +64,6 @@ $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color,
     bottom: 0;
     left: 0;
     background-color: $modal-backdrop-color;
-    backdrop-filter: $modal-backdrop-filter;
   }
 
   &-dialog {
@@ -74,9 +71,9 @@ $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color,
     box-sizing: border-box;
     margin: $modal-dialog-margin;
     width: 100%;
-    max-width: 576px;
-    height: calc(100% - 1rem);
+    height: calc(100vh + #{$modal-dialog-margin-overscroll});
     border-radius: $modal-dialog-border-radius;
+    background-color: $modal-dialog-background-color;
     box-shadow: $modal-dialog-box-shadow;
     overflow: hidden;
 
@@ -84,10 +81,9 @@ $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color,
       position: absolute;
       top: 0;
       right: 0;
-      bottom: 1rem;
+      bottom: $modal-dialog-margin-top + $modal-dialog-margin-bottom + $modal-dialog-margin-overscroll;
       left: 0;
       border-radius: inherit;
-      background-color: $modal-dialog-background-color;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
     }
@@ -126,6 +122,31 @@ $modal-close-background-color-hover: rgba(darken($modal-dialog-background-color,
         stroke: $modal-close-color;
         fill: $modal-close-color;
       }
+    }
+  }
+  &-xs {
+    .modal-dialog {
+      max-width: $modal-breakpoint-xs;
+    }
+  }
+  &-sm {
+    .modal-dialog {
+      max-width: $modal-breakpoint-sm;
+    }
+  }
+  &-md {
+    .modal-dialog {
+      max-width: $modal-breakpoint-md;
+    }
+  }
+  &-lg {
+    .modal-dialog {
+      max-width: $modal-breakpoint-lg;
+    }
+  }
+  &-xl {
+    .modal-dialog {
+      max-width: $modal-breakpoint-xl;
     }
   }
 }
