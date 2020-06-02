@@ -5,19 +5,21 @@ A simple, basic, highly customizable and mobile friendly modal component for Vue
 ## Key features
 
 - Easy to use
-- Basic HTML structure
+- Simple HTML structure
 - CSS customizable
 - Large content support — addresses the well-known Safari over-scroll chaining issue on iOS
 
-## Install
+## Usage
+
+### Install
 
 ```sh
 yarn add cube-vue-modal
 ```
 
-## Exemple
+### Exemple
 
-### Template
+#### Template
 
 ```html
 <div id="App">
@@ -37,7 +39,7 @@ yarn add cube-vue-modal
 </div>
 ```
 
-### Script
+#### Script
 
 ```javascript
 import Modal from 'cube-vue-modal'
@@ -54,7 +56,7 @@ export default {
 }
 ```
 
-### SCSS
+#### SCSS
 
 ```scss
 ///
@@ -82,11 +84,35 @@ export default {
 
 ## Events
 
-| Name  | Description                              |
-| ----- | ---------------------------------------- |
-| input | The open state of the modal has changed. |
-| open  | The modal is opened.                     |
-| close | The modal is closed.                     |
+| Name   | Description                                        |
+| ------ | -------------------------------------------------- |
+| input  | The open state of the modal has changed.           |
+| open   | The modal is opened.                               |
+| opened | The modal is opened and the animation is finished. |
+| close  | The modal is closed.                               |
+| closed | The modal is closed and the animation is finished. |
+
+## Methods
+
+| Name   | Async | Description                                                    |
+| ------ | ----- | -------------------------------------------------------------- |
+| open   | true  | Opens the modal and resolves after the animation is finished.  |
+| close  | true  | Closes the modal and resolves after the animation is finished. |
+| toggle | true  | Switches between the open and close methods.                   |
+
+## HTML structure and classes
+
+```html
+<div class="modal">
+  <div class="modal-backdrop"></div>
+  <div class="modal-dialog" role="dialog">
+    <button class="modal-dialog-close"></button>
+    <div class="modal-dialog-container">
+      <slot />
+    </div>
+  </div>
+</div>
+```
 
 ## Development Setup
 
@@ -94,7 +120,7 @@ export default {
 # Project setup
 yarn install
 
-# Compiles and hot-reloads for development – Run the demo
+# Compiles and hot-reloads for demo web site development
 yarn run serve
 
 # Compiles and minifies for production

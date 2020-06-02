@@ -115,6 +115,7 @@ export default {
       return new Promise((resolve) => {
         this.$once('after-enter', () => {
           this.$refs.backdrop.focus()
+          this.$emit('opened', this)
           resolve()
         })
         this.lockScroll()
@@ -129,6 +130,7 @@ export default {
       return new Promise((resolve) => {
         this.$once('after-leave', () => {
           this.lastFocus.focus()
+          this.$emit('closed', this)
           resolve()
         })
         this.opened = false
@@ -150,7 +152,6 @@ export default {
     if (this.opened) {
       this.unlockScroll()
     }
-    // this.targetElement.removeChild(this.$el)
   }
 }
 </script>
