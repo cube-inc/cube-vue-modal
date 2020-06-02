@@ -12,6 +12,9 @@
   overflow: hidden;
   backdrop-filter: $modal-backdrop-filter;
   pointer-events: none;
+  &:focus {
+    outline: 0;
+  }
 
   &-align-start {
     align-items: flex-start;

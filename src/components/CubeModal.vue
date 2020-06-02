@@ -1,7 +1,7 @@
 <template>
   <ModalTransition :name="transitionName" @after-enter="$emit('after-enter')" @after-leave="$emit('after-leave')">
-    <div v-if="opened" ref="modal" class="modal" v-bind="$attrs">
-      <div class="modal-backdrop" ref="backdrop" tabindex="0" @click.self.stop="close"></div>
+    <div v-if="opened" ref="modal" tabindex="-1" class="modal" v-bind="$attrs">
+      <div class="modal-backdrop" ref="backdrop" @click.self.stop="close"></div>
       <!-- <div v-if="willClose" class="modal-will-close">×</div> -->
       <div
         ref="dialog"
@@ -114,7 +114,7 @@ export default {
       this.lastFocus = document.activeElement
       return new Promise((resolve) => {
         this.$once('after-enter', () => {
-          this.$refs.backdrop.focus()
+          this.$refs.modal.focus()
           this.$emit('opened', this)
           resolve()
         })
