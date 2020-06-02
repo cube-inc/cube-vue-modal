@@ -44,7 +44,7 @@
 import ModalXS from './modals/xs.vue'
 import ModalSM from './modals/sm.vue'
 import ModalFullscreen from './modals/fullscreen.vue'
-import './scss/index.scss'
+import './scss/main.scss'
 
 export default {
   name: 'app',

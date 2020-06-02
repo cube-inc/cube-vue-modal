@@ -1,37 +1,4 @@
-// Backdrop
-$modal-backdrop-color: rgba(black, 0.2) !default;
-// $modal-backdrop-filter: saturate(200%) blur(4px) !default; // Causes performance issue on Google Chrome
-$modal-backdrop-filter: none !default;
-
-// Dialog
-$modal-dialog-margin-y: 4rem !default;
-$modal-dialog-margin-x: 1rem !default;
-$modal-dialog-margin: $modal-dialog-margin-y $modal-dialog-margin-x !default;
-$modal-dialog-margin-y-xs: 2rem !default;
-$modal-dialog-margin-x-xs: 0 !default;
-$modal-dialog-margin-xs: $modal-dialog-margin-y-xs $modal-dialog-margin-x-xs !default;
-$modal-dialog-overscroll-margin: 2rem !default;
-$modal-dialog-border-radius: 1rem !default;
-$modal-dialog-background-color: darken(white, 2%) !default;
-$modal-dialog-box-shadow: 0 0 1rem rgba(black, 0.25) !default;
-
-// Close button
-$modal-close-font-size: 1rem !default;
-$modal-close-button-size: 2.5rem !default;
-$modal-close-margin: 1rem !default;
-$modal-close-border-radius: 50% !default;
-$modal-close-color: hsla(0, 0%, 10%, 0.9) !default;
-$modal-close-background-color: hsla(0, 0%, 90%, 0.9) !default;
-$modal-close-background-color-hover: hsla(0, 0%, 75%, 0.9) !default;
-// $modal-close-backdrop-filter: saturate(200%) blur(3px) !default;
-$modal-close-backdrop-filter: none !default;
-
-// Breakpoints
-$modal-breakpoint-xs: 576px !default;
-$modal-breakpoint-sm: 768px !default;
-$modal-breakpoint-md: 992px !default;
-$modal-breakpoint-lg: 1200px !default;
-$modal-breakpoint-xl: 1900px !default;
+@import 'variables';
 
 .modal {
   position: fixed;

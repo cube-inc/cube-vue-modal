@@ -7,7 +7,7 @@ A simple, basic, highly customizable and mobile friendly modal component for Vue
 - Easy to use
 - Basic HTML structure
 - CSS customizable
-- Large content support — addresses the well-known Safari over-scroll issue on iOS
+- Large content support — addresses the well-known Safari over-scroll chaining issue on iOS
 
 ## Install
 
@@ -17,84 +17,59 @@ yarn add cube-vue-modal
 
 ## Exemple
 
+### Template
+
 ```html
-<template>
-  <div id="App">
-    <p>Click the button below to open the modal.</p>
-    <button :disabled="open" @click="open = true">Open</button>
-    <Modal v-model="open">
-      <header>
-        <h1>Title</h1>
-        <a class="modal-dialog-close" @click.prevent="open = true"></a>
-      </header>
-      <main>
-        This is a content.
-      </main>
-      <footer>
-        <button @click="open = false">Close</button>
-      </footer>
-    </Modal>
-  </div>
-</template>
-
-<script>
-  import Modal from 'cube-vue-modal'
-
-  export default {
-    components: {
-      Modal
-    },
-    data() {
-      return {
-        open: false
-      }
-    }
-  }
-</script>
-
-<style lang="scss">
-  /* Import your own variables */
-  @import 'assets/_variables.scss';
-
-  /* Import style and animations, defaults are overrided by your own assets/_variables.scss */
-  @import '~cube-vue-modal/src/scss/_modal.scss';
-  @import '~cube-vue-modal/src/scss/_modal_animations.scss';
-
-  /* This is required in order to make the over-scroll workaround work */
-  html,
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  .modal-dialog {
-    align-self: center;
-  }
-</style>
+<div id="App">
+  <p>Click the button below to open the modal.</p>
+  <button :disabled="open" @click="open = true">Open</button>
+  <Modal v-model="open">
+    <header>
+      <h1 class="modal-title">Title</h1>
+    </header>
+    <main>
+      <p>This is a content.</p>
+    </main>
+    <footer>
+      <button @click="open = false">Close</button>
+    </footer>
+  </Modal>
+</div>
 ```
 
+### Script
+
+```javascript
+import Modal from 'cube-vue-modal'
+
+export default {
+  components: {
+    Modal
+  },
+  data() {
+    return {
+      open: false
+    }
+  }
+}
+```
+
+### SCSS
+
 ```scss
-/* You can override all theses variables to style the modal components */
-$z-index-modal-backdrop: 20;
-$z-index-modal-dialog: 30;
+///
+/// Import your own variables
+///
+@import 'assets/scss/variables';
 
-$modal-backdrop-color: rgba(black, 0.4);
-$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, 0.65);
-$modal-backdrop-filter: saturate(200%) blur(4px);
-
-$modal-dialog-margin: 2em 1em;
-$modal-dialog-padding: 1em 2em;
-$modal-dialog-background-color: darken(white, 2%);
-$modal-dialog-border-radius: 1px;
-$modal-dialog-box-shadow: 0 0.4rem 1rem rgba(black, 0.3);
-
-$modal-close-color: #777777;
-$modal-close-font-size: 16px;
-$modal-close-button-size: 30px;
-$modal-close-margin: 4px;
-$modal-close-border-radius: 50%;
-$modal-close-background-color: transparent;
-$modal-close-background-color-hover: darken($modal-dialog-background-color, 5%);
+///
+/// Import modal style and animations
+///
+@import '~cube-vue-modal/src/scss';
+/// Or ↴
+@import '~cube-vue-modal/src/scss/variables';
+@import '~cube-vue-modal/src/scss/modal';
+@import '~cube-vue-modal/src/scss/animations';
 ```
 
 ## Props

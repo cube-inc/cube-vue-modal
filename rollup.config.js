@@ -42,6 +42,12 @@ const esm = {
   ...output
 }
 
+const cjs = {
+  format: 'cjs',
+  file: pkg.browser,
+  ...output
+}
+
 const unpkg = {
   format: 'iife',
   file: pkg.unpkg,
@@ -50,7 +56,7 @@ const unpkg = {
 
 export default {
   input: 'src/wrapper.js',
-  output: [umd, esm, unpkg],
+  output: [umd, esm, cjs, unpkg],
   plugins: [
     progress(),
     clear({
