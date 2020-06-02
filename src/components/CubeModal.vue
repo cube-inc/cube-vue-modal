@@ -135,10 +135,15 @@ export default {
       return this.opened ? this.close() : this.open()
     }
   },
+  mounted() {
+    // Moves it out of the $root
+    document.body.appendChild(this.$el)
+  },
   beforeDestroy() {
     if (this.opened) {
       this.unlockScroll()
     }
+    document.body.removeChild(this.$el)
   }
 }
 </script>

@@ -4,10 +4,12 @@ $modal-backdrop-color: rgba(black, 0.2) !default;
 $modal-backdrop-filter: none !default;
 
 // Dialog
-$modal-dialog-margin-y: 2rem !default;
+$modal-dialog-margin-y: 4rem !default;
 $modal-dialog-margin-x: 1rem !default;
 $modal-dialog-margin: $modal-dialog-margin-y $modal-dialog-margin-x !default;
-$modal-dialog-margin-overscroll: 1rem !default;
+$modal-dialog-margin-y-xs: 2rem !default;
+$modal-dialog-margin-x-xs: 0 !default;
+$modal-dialog-margin-xs: $modal-dialog-margin-y-xs $modal-dialog-margin-x-xs !default;
 $modal-dialog-border-radius: 1rem !default;
 $modal-dialog-background-color: darken(white, 2%) !default;
 $modal-dialog-box-shadow: 0 0 1rem rgba(black, 0.25) !default;
@@ -41,6 +43,7 @@ $modal-breakpoint-xl: 1900px !default;
   align-items: center;
   overflow: hidden;
   backdrop-filter: $modal-backdrop-filter;
+  pointer-events: none;
 
   &-align-start {
     align-items: flex-start;
@@ -66,6 +69,7 @@ $modal-breakpoint-xl: 1900px !default;
     bottom: 0;
     left: 0;
     background-color: $modal-backdrop-color;
+    pointer-events: auto;
   }
 
   &-dialog {
@@ -78,6 +82,7 @@ $modal-breakpoint-xl: 1900px !default;
     border-radius: $modal-dialog-border-radius;
     box-shadow: $modal-dialog-box-shadow;
     overflow: hidden;
+    pointer-events: auto;
 
     &-container {
       min-height: $modal-close-button-size + ($modal-close-margin * 2);
@@ -169,8 +174,8 @@ $modal-breakpoint-xl: 1900px !default;
   .modal {
     align-items: flex-end;
     &-dialog {
-      margin: $modal-dialog-margin-y 0 0 0;
-      height: calc(100% - #{$modal-dialog-margin-y});
+      margin: $modal-dialog-margin-y-xs $modal-dialog-margin-x-xs 0 $modal-dialog-margin-x-xs;
+      height: calc(100% - #{$modal-dialog-margin-y-xs});
       border-radius: $modal-dialog-border-radius $modal-dialog-border-radius 0 0;
       &-container {
         height: 100%;
