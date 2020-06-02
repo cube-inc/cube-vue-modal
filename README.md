@@ -74,10 +74,11 @@ export default {
 
 ## Props
 
-| Name       | Required | Type    | Default   | Description                                                                                               |
-| ---------- | -------- | ------- | --------- | --------------------------------------------------------------------------------------------------------- |
-| value      | false    | Boolean | false     | The open state of the modal.                                                                              |
-| transition | false    | String  | 'animate' | The name of the [transition](https://vuejs.org/v2/guide/transitions.html) to use for opening and closing. |
+| Name       | Required | Type           | Default       | Description                                                                                                                                                                                     |
+| ---------- | -------- | -------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| value      | false    | Boolean        | false         | The open state of the modal.                                                                                                                                                                    |
+| transition | false    | String         | 'animate'     | The name of the [transition](https://vuejs.org/v2/guide/transitions.html) to use for opening and closing.                                                                                       |
+| target     | false    | String, Object | document.body | The [querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) or the [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) to append the modal to. |
 
 ## Events
 

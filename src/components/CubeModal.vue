@@ -33,6 +33,7 @@ export default {
   props: {
     value: { type: Boolean, default: false },
     transitionName: { type: String, default: 'animate' },
+    target: { type: [String, Element], default: () => document.body },
     closeButton: { type: Boolean, default: true }
   },
   data() {
@@ -46,6 +47,9 @@ export default {
     }
   },
   computed: {
+    targetElement() {
+      return this.target instanceof Element ? this.target : document.querySelector(this.target)
+    },
     transitionEnterActiveClassName() {
       return `${this.transitionName}-enter-active`
     }
@@ -131,14 +135,13 @@ export default {
     }
   },
   mounted() {
-    // Moves it out of the $root
-    document.body.appendChild(this.$el)
+    this.targetElement.appendChild(this.$el)
   },
   beforeDestroy() {
     if (this.opened) {
       this.unlockScroll()
     }
-    document.body.removeChild(this.$el)
+    // this.targetElement.removeChild(this.$el)
   }
 }
 </script>
