@@ -1,19 +1,18 @@
 <template>
   <ModalTransition :name="transitionName" @after-enter="$emit('after-enter')" @after-leave="$emit('after-leave')">
     <div v-if="opened" ref="modal" class="modal" v-bind="$attrs">
-      <div class="modal-backdrop" @click.self.stop="close"></div>
+      <div class="modal-backdrop" ref="backdrop" tabindex="0" @click.self.stop="close"></div>
       <!-- <div v-if="willClose" class="modal-will-close">×</div> -->
       <div
         ref="dialog"
         class="modal-dialog"
-        tabindex="0"
         role="dialog"
         @touchstart="onTouchStart"
         @touchmove="onTouchMove"
         @touchend="onTouchEnd"
         @transitionend="$emit('dialog-transitionend')"
       >
-        <ButtonClose v-if="closeButton" ref="closeButton" tabindex="0" role="button" @click="close" />
+        <ButtonClose v-if="closeButton" @click="close" />
         <div ref="container" class="modal-dialog-container">
           <slot />
         </div>
@@ -115,7 +114,7 @@ export default {
       this.lastFocus = document.activeElement
       return new Promise((resolve) => {
         this.$once('after-enter', () => {
-          this.$refs.dialog.focus()
+          this.$refs.backdrop.focus()
           resolve()
         })
         this.lockScroll()
