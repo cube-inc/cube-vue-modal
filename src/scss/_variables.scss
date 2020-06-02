@@ -22,7 +22,9 @@ $modal-close-margin: 1rem !default;
 $modal-close-border-radius: 50% !default;
 $modal-close-color: hsla(0, 0%, 10%, 0.9) !default;
 $modal-close-background-color: hsla(0, 0%, 90%, 0.9) !default;
-$modal-close-background-color-hover: hsla(0, 0%, 75%, 0.9) !default;
+$modal-close-background-color-hover: hsla(0, 0%, 80%, 0.9) !default;
+$modal-close-background-color-active: hsla(0, 0%, 70%, 0.9) !default;
+$modal-close-color-focus: hsla(0, 0%, 60%, 0.5) !default;
 // $modal-close-backdrop-filter: saturate(200%) blur(3px) !default;
 $modal-close-backdrop-filter: none !default;
 

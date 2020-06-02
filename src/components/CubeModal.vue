@@ -6,12 +6,14 @@
       <div
         ref="dialog"
         class="modal-dialog"
+        tabindex="0"
+        role="dialog"
         @touchstart="onTouchStart"
         @touchmove="onTouchMove"
         @touchend="onTouchEnd"
         @transitionend="$emit('dialog-transitionend')"
       >
-        <ButtonClose v-if="closeButton" @click="close" />
+        <ButtonClose v-if="closeButton" ref="closeButton" tabindex="0" role="button" @click="close" />
         <div ref="container" class="modal-dialog-container">
           <slot />
         </div>
@@ -37,6 +39,7 @@ export default {
     closeButton: { type: Boolean, default: true }
   },
   data() {
+    this.lastFocus = null
     this.touchstartY = null
     this.touchmoveY = null
     this.isScrollAtTop = false
@@ -109,8 +112,12 @@ export default {
       document.body.classList.remove('modal-scroll-lock')
     },
     open() {
+      this.lastFocus = document.activeElement
       return new Promise((resolve) => {
-        this.$once('after-enter', resolve)
+        this.$once('after-enter', () => {
+          this.$refs.dialog.focus()
+          resolve()
+        })
         this.lockScroll()
         this.opened = true
         if (this.value !== true) {
@@ -121,7 +128,10 @@ export default {
     },
     close() {
       return new Promise((resolve) => {
-        this.$once('after-leave', resolve)
+        this.$once('after-leave', () => {
+          this.lastFocus.focus()
+          resolve()
+        })
         this.opened = false
         this.unlockScroll()
         if (this.value !== false) {

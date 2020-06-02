@@ -51,6 +51,9 @@
     box-shadow: $modal-dialog-box-shadow;
     overflow: hidden;
     pointer-events: auto;
+    &:focus {
+      outline: none;
+    }
 
     &-container {
       min-height: $modal-close-button-size + ($modal-close-margin * 2);
@@ -77,13 +80,23 @@
       line-height: $modal-close-button-size;
       color: $modal-close-color;
       background-color: $modal-close-background-color;
+      box-shadow: 0 0 0 3px transparent;
       backdrop-filter: $modal-close-backdrop-filter;
       cursor: pointer;
       transition: all 250ms ease;
-      &:hover {
-        opacity: 1;
-        text-decoration: none;
-        background-color: $modal-close-background-color-hover;
+      @media (hover: hover) {
+        &:hover {
+          background-color: $modal-close-background-color-hover;
+        }
+      }
+      &::-moz-focus-inner {
+        outline: none;
+      }
+      &:focus {
+        box-shadow: 0 0 0 3px $modal-close-color-focus;
+      }
+      &:active {
+        background-color: $modal-close-background-color-active;
       }
       .icon {
         display: block;
