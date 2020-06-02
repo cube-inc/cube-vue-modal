@@ -10,6 +10,7 @@ $modal-dialog-margin: $modal-dialog-margin-y $modal-dialog-margin-x !default;
 $modal-dialog-margin-y-xs: 2rem !default;
 $modal-dialog-margin-x-xs: 0 !default;
 $modal-dialog-margin-xs: $modal-dialog-margin-y-xs $modal-dialog-margin-x-xs !default;
+$modal-dialog-overscroll-margin: 2rem !default;
 $modal-dialog-border-radius: 1rem !default;
 $modal-dialog-background-color: darken(white, 2%) !default;
 $modal-dialog-box-shadow: 0 0 1rem rgba(black, 0.25) !default;
@@ -133,13 +134,14 @@ $modal-breakpoint-xl: 1900px !default;
   }
   &-fullscreen {
     .modal-dialog {
-      margin: 0;
-      height: 100%;
+      margin: 0 0 (-$modal-dialog-overscroll-margin) 0;
+      padding-bottom: $modal-dialog-overscroll-margin;
+      height: calc(100% + #{$modal-dialog-overscroll-margin});
       max-height: none;
       border-radius: 0;
       &-container {
-        max-height: none;
         height: 100%;
+        max-height: none;
       }
     }
   }
@@ -174,8 +176,9 @@ $modal-breakpoint-xl: 1900px !default;
   .modal {
     align-items: flex-end;
     &-dialog {
-      margin: $modal-dialog-margin-y-xs $modal-dialog-margin-x-xs 0 $modal-dialog-margin-x-xs;
-      height: calc(100% - #{$modal-dialog-margin-y-xs});
+      margin: $modal-dialog-margin-y-xs $modal-dialog-margin-x-xs (-$modal-dialog-overscroll-margin) $modal-dialog-margin-x-xs;
+      padding-bottom: $modal-dialog-overscroll-margin;
+      height: calc(100% - #{$modal-dialog-margin-y-xs} + #{$modal-dialog-overscroll-margin});
       border-radius: $modal-dialog-border-radius $modal-dialog-border-radius 0 0;
       &-container {
         height: 100%;
