@@ -114,6 +114,7 @@
   &-title {
     line-height: $modal-close-button-size;
     font-size: $modal-close-button-size;
+    margin: 0;
   }
   &-fullscreen {
     .modal-dialog {
