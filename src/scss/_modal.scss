@@ -86,7 +86,7 @@
       box-shadow: 0 0 0 3px transparent;
       backdrop-filter: $modal-close-backdrop-filter;
       cursor: pointer;
-      transition: all 250ms ease;
+      transition: all 100ms ease;
       @media (hover: hover) {
         &:hover {
           background-color: $modal-close-background-color-hover;
@@ -98,6 +98,7 @@
       &:focus {
         box-shadow: 0 0 0 3px $modal-close-color-focus;
       }
+      &.active,
       &:active {
         background-color: $modal-close-background-color-active;
       }

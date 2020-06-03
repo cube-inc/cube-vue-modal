@@ -12,7 +12,7 @@
         @touchend="onTouchEnd"
         @transitionend="$emit('dialog-transitionend')"
       >
-        <ButtonClose v-if="closeButton" @click="close" />
+        <ButtonClose v-if="closeButton" :class="{ active: willClose }" @click="close" />
         <div ref="container" class="modal-dialog-container">
           <slot />
         </div>
@@ -70,7 +70,7 @@ export default {
       this.touchstartY = this.touchmoveY = event.layerY
       this.isScrollAtTop = container.scrollTop === 0
       this.isScrollAtBottom = container.scrollHeight - container.scrollTop === container.clientHeight
-      this.closeThreshold = window.innerHeight / 2
+      this.closeThreshold = window.innerHeight / 3
       modal.classList.remove(this.transitionEnterActiveClassName)
     },
     onTouchMove(event) {
@@ -80,7 +80,7 @@ export default {
         if (this.isScrollAtTop && offset >= 0) {
           event.preventDefault()
           this.$refs.dialog.style.transform = `translateY(${offset}px)`
-          this.willClose = offset >= this.closeThreshold && event.layerY >= this.touchmoveY
+          this.willClose = event.layerY >= this.touchmoveY && offset >= this.closeThreshold
         }
         if (this.isScrollAtBottom && offset < 0) {
           event.preventDefault()
