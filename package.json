@@ -13,15 +13,9 @@
     "vue",
     "modal"
   ],
-  "main": "dist/cube-vue-modal.umd.js",
   "module": "dist/cube-vue-modal.esm.js",
-  "unpkg": "dist/cube-vue-modal.min.js",
-  "browser": "dist/cube-vue-modal.common.js",
   "files": [
     "dist",
-    "src/components/CubeModal.vue",
-    "src/components/CubeModalTransition.vue",
-    "src/components/CubeModalButtonClose.vue",
     "src/scss/index.scss",
     "src/scss/_variables.scss",
     "src/scss/_modal.scss",
