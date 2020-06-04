@@ -1,0 +1,61 @@
+.animate {
+  &-enter {
+    &-active {
+      transition: all 350ms ease;
+      > .modal-backdrop {
+        transition: all 250ms ease;
+      }
+      > .modal-dialog {
+        transition: all 350ms cubic-bezier(0.3, 1.17, 0.5, 1);
+        > .modal-dialog-container {
+          transition: all 350ms cubic-bezier(0.3, 1.17, 0.5, 1);
+        }
+      }
+    }
+    &-from {
+      backdrop-filter: none;
+      > .modal-backdrop {
+        opacity: 0;
+      }
+      > .modal-dialog {
+        transform: translateY(100vh);
+      }
+    }
+    &-to {
+      > .modal-backdrop {
+        opacity: 1;
+      }
+      > .modal-dialog {
+        transform: translateY(0vh);
+      }
+    }
+  }
+  &-leave {
+    &-active {
+      transition: all 450ms ease;
+      > .modal-backdrop {
+        transition: all 250ms ease 200ms;
+      }
+      > .modal-dialog {
+        transition: all 350ms ease-in;
+      }
+    }
+    &-from {
+      > .modal-backdrop {
+        opacity: 1;
+      }
+      > .modal-dialog {
+        transform: translateY(0vh);
+      }
+    }
+    &-to {
+      backdrop-filter: none;
+      > .modal-backdrop {
+        opacity: 0;
+      }
+      > .modal-dialog {
+        transform: translateY(100vh);
+      }
+    }
+  }
+}

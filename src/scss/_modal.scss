@@ -1,88 +1,173 @@
-// Z-index
-$z-index-modal-backdrop: 20 !default;
-$z-index-modal-dialog: 30 !default;
-
-// Modal
-$modal-backdrop-color: rgba(black, .4) !default;
-$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, .65) !default;
-$modal-backdrop-filter: saturate(200%) blur(4px) !default;
-
-$modal-dialog-margin: 2em 1em !default;
-$modal-dialog-padding: 1em 2em !default;
-$modal-dialog-bg-color: darken(white, 2%) !default;
-$modal-dialog-border-radius: 1px !default;
-$modal-dialog-box-shadow: 0 .4rem 1rem rgba(black, .3) !default;
-
-$modal-close-color: #777777 !default;
-$modal-close-font-size: 16px !default;
-$modal-close-button-size: 30px !default;
-$modal-close-margin: 4px !default;
-$modal-close-border-radius: 50% !default;
-$modal-close-bg-color: transparent !default;
-$modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%) !default;
+@import 'variables';
 
 .modal {
-  position: relative;
+  position: fixed;
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-width: 100%;
-  min-height: 100vh; // To make sure to not trigger an address bar change from Safari iOS
-
-  // Backdrop
-  &-backdrop {
-    position: fixed;
-    z-index: $z-index-modal-backdrop;
-    // Extends the backdrop out of the viewport against overscroll visual glitch on Chrome
-    top: -100px;
-    right: -100px;
-    bottom: -100px;
-    left: -100px;
-    background-color: $modal-backdrop-color-no-filter;
-    @supports (backdrop-filter: $modal-backdrop-filter) {
-      background-color: $modal-backdrop-color;
-      backdrop-filter: $modal-backdrop-filter;
-    }
+  justify-content: space-around;
+  align-items: center;
+  overflow: hidden;
+  backdrop-filter: $modal-backdrop-filter;
+  pointer-events: none;
+  &:focus {
+    outline: 0;
   }
 
-  // Dialog
+  &-align-start {
+    align-items: flex-start;
+  }
+
+  &-scroll-lock {
+    overflow: hidden;
+  }
+
+  // &-will-close {
+  //   position: absolute;
+  //   top: 2rem;
+  //   right: 0;
+  //   left: 0;
+  //   color: white;
+  //   text-align: center;
+  // }
+
+  &-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $modal-backdrop-color;
+    pointer-events: auto;
+  }
+
   &-dialog {
     position: relative;
-    z-index: $z-index-modal-dialog;
+    z-index: 1;
     box-sizing: border-box;
+    width: 100%;
     margin: $modal-dialog-margin;
-    padding: $modal-dialog-padding;
-    height: 100%;
+    background-color: $modal-dialog-background-color;
     border-radius: $modal-dialog-border-radius;
-    background-color: $modal-dialog-bg-color;
     box-shadow: $modal-dialog-box-shadow;
+    overflow: hidden;
+    pointer-events: auto;
+    &:focus {
+      outline: none;
+    }
 
-    // Close
+    &-container {
+      min-height: $modal-close-button-size + ($modal-close-margin * 2);
+      max-height: calc(100vh - #{$modal-dialog-margin-y * 2});
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     &-close {
       position: absolute;
+      z-index: 20;
       top: 0;
       right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: $modal-close-margin;
+      padding: 0;
       width: $modal-close-button-size;
       height: $modal-close-button-size;
-      margin: $modal-close-margin;
+      border: 0 none;
       border-radius: $modal-close-border-radius;
       font-size: $modal-close-font-size;
       line-height: $modal-close-button-size;
-      text-align: center;
       color: $modal-close-color;
-      background-color: $modal-close-bg-color;
-      opacity: .4;
+      background-color: $modal-close-background-color;
+      box-shadow: 0 0 0 3px transparent;
+      backdrop-filter: $modal-close-backdrop-filter;
       cursor: pointer;
-      transition: all 250ms ease;
-      &::before {
-        content: "✕";
+      transition: all 100ms ease;
+      @media (hover: hover) {
+        &:hover {
+          background-color: $modal-close-background-color-hover;
+        }
       }
-      &:hover {
-        opacity: 1;
-        text-decoration: none;
-        background-color: $modal-close-bg-color-hover;
+      &::-moz-focus-inner {
+        outline: none;
+      }
+      &:focus {
+        box-shadow: 0 0 0 3px $modal-close-color-focus;
+      }
+      &.active,
+      &:active {
+        background-color: $modal-close-background-color-active;
+      }
+      .icon {
+        display: block;
+        width: $modal-close-button-size * 0.3;
+        height: $modal-close-button-size * 0.3;
+        color: $modal-close-color;
+        stroke: $modal-close-color;
+        fill: $modal-close-color;
+      }
+    }
+  }
+  &-title {
+    line-height: $modal-close-button-size;
+    font-size: $modal-close-button-size;
+    margin: 0;
+  }
+  &-fullscreen {
+    .modal-dialog {
+      margin: 0 0 (-$modal-dialog-overscroll-margin) 0;
+      padding-bottom: $modal-dialog-overscroll-margin;
+      height: calc(100% + #{$modal-dialog-overscroll-margin});
+      max-height: none;
+      border-radius: 0;
+      &-container {
+        height: 100%;
+        max-height: none;
+      }
+    }
+  }
+  &-xs {
+    .modal-dialog {
+      max-width: $modal-breakpoint-xs;
+    }
+  }
+  &-sm {
+    .modal-dialog {
+      max-width: $modal-breakpoint-sm;
+    }
+  }
+  &-md {
+    .modal-dialog {
+      max-width: $modal-breakpoint-md;
+    }
+  }
+  &-lg {
+    .modal-dialog {
+      max-width: $modal-breakpoint-lg;
+    }
+  }
+  &-xl {
+    .modal-dialog {
+      max-width: $modal-breakpoint-xl;
+    }
+  }
+}
+
+@media (max-width: $modal-breakpoint-xs) {
+  .modal {
+    align-items: flex-end;
+    &-dialog {
+      margin: $modal-dialog-margin-y-xs $modal-dialog-margin-x-xs (-$modal-dialog-overscroll-margin) $modal-dialog-margin-x-xs;
+      padding-bottom: $modal-dialog-overscroll-margin;
+      height: calc(100% - #{$modal-dialog-margin-y-xs} + #{$modal-dialog-overscroll-margin});
+      border-radius: $modal-dialog-border-radius $modal-dialog-border-radius 0 0;
+      &-container {
+        height: 100%;
+        max-height: none;
       }
     }
   }

@@ -5,111 +5,114 @@ A simple, basic, highly customizable and mobile friendly modal component for Vue
 ## Key features
 
 - Easy to use
-- Basic HTML structure
+- Simple HTML structure
 - CSS customizable
-- Large content support — addresses the well-known Safari over-scroll issue on iOS
+- Large content support — addresses the well-known Safari over-scroll chaining issue on iOS
 
-## Install
+## Usage
+
+### Install
 
 ```sh
 yarn add cube-vue-modal
 ```
 
-## Exemple
+### Exemple
+
+#### Template
 
 ```html
-<template>
-  <div id="App">
-    <p>Click the button below to open the modal.</p>
-    <button :disabled="open" @click="open = true">Open</button>
-    <Modal v-model="open">
-      <header>
-        <h1>Title</h1>
-        <a class="modal-dialog-close"@click.prevent="open = true"></a>
-      </header>
-      <main>
-        This is a content.
-      </main>
-      <footer>
-        <button @click="open = false">Close</button>
-      </footer>
-    </Modal>
-  </div>
-</template>
+<div id="App">
+  <p>Click the button below to open the modal.</p>
+  <button :disabled="open" @click="open = true">Open</button>
+  <Modal v-model="open">
+    <header>
+      <h1 class="modal-title">Title</h1>
+    </header>
+    <main>
+      <p>This is a content.</p>
+    </main>
+    <footer>
+      <button @click="open = false">Close</button>
+    </footer>
+  </Modal>
+</div>
+```
 
-<script>
+#### Script
+
+```javascript
 import Modal from 'cube-vue-modal'
 
 export default {
   components: {
     Modal
   },
-  data () {
+  data() {
     return {
       open: false
     }
   }
 }
-</script>
-
-<style lang="scss">
-/* Import your own variables */
-@import 'assets/_variables.scss';
-
-/* Import style and animations, defaults are overrided by your own assets/_variables.scss */
-@import '~cube-vue-modal/src/scss/_modal.scss';
-@import '~cube-vue-modal/src/scss/_modal_animations.scss';
-
-/* This is required in order to make the over-scroll workaround work */
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
-.modal-dialog {
-    align-self: center;
-}
-</style>
 ```
 
+#### SCSS
+
 ```scss
-/* You can override all theses variables to style the modal components */
-$z-index-modal-backdrop: 20;
-$z-index-modal-dialog: 30;
+///
+/// Import your own variables
+///
+@import 'assets/scss/variables';
 
-$modal-backdrop-color: rgba(black, .4);
-$modal-backdrop-color-no-filter: rgba($modal-backdrop-color, .65);
-$modal-backdrop-filter: saturate(200%) blur(4px);
-
-$modal-dialog-margin: 2em 1em;
-$modal-dialog-padding: 1em 2em;
-$modal-dialog-bg-color: darken(white, 2%);
-$modal-dialog-border-radius: 1px;
-$modal-dialog-box-shadow: 0 .4rem 1rem rgba(black, .3);
-
-$modal-close-color: #777777;
-$modal-close-font-size: 16px;
-$modal-close-button-size: 30px;
-$modal-close-margin: 4px;
-$modal-close-border-radius: 50%;
-$modal-close-bg-color: transparent;
-$modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%);
+///
+/// Import modal style and animations
+///
+@import '~cube-vue-modal/src/scss';
+/// Or ↴
+@import '~cube-vue-modal/src/scss/variables';
+@import '~cube-vue-modal/src/scss/modal';
+@import '~cube-vue-modal/src/scss/animations';
 ```
 
 ## Props
 
-| Name       | Required | Type    | Default   | Description |
-| ---        | ---      | ---     | ---       | ---         |
-| value      | false    | Boolean | false     | The open state of the modal. |
-| transition | false    | String  | 'animate' | The name of the [transition](https://vuejs.org/v2/guide/transitions.html) to use for opening and closing. |
+| Name       | Required | Type           | Default       | Description                                                                                                                                                                                     |
+| ---------- | -------- | -------------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| value      | false    | Boolean        | false         | The open state of the modal.                                                                                                                                                                    |
+| transition | false    | String         | 'animate'     | The name of the [transition](https://vuejs.org/v2/guide/transitions.html) to use for opening and closing.                                                                                       |
+| target     | false    | String, Object | document.body | The [querySelector](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector) or the [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) to append the modal to. |
 
 ## Events
 
-| Name  | Description |
-| ---   | ---         |
-| input | The open state of the modal has changed. |
-| open  | The modal is opened. |
-| close | The modal is closed. |
+| Name   | Description                                        |
+| ------ | -------------------------------------------------- |
+| input  | The open state of the modal has changed.           |
+| open   | The modal is opened.                               |
+| opened | The modal is opened and the animation is finished. |
+| close  | The modal is closed.                               |
+| closed | The modal is closed and the animation is finished. |
+
+## Methods
+
+| Name   | Async | Description                                                    |
+| ------ | ----- | -------------------------------------------------------------- |
+| open   | true  | Opens the modal and resolves after the animation is finished.  |
+| close  | true  | Closes the modal and resolves after the animation is finished. |
+| toggle | true  | Switches between the open and close methods.                   |
+
+## HTML structure and classes
+
+```html
+<div class="modal">
+  <div class="modal-backdrop"></div>
+  <div class="modal-dialog" role="dialog">
+    <button class="modal-dialog-close"></button>
+    <div class="modal-dialog-container">
+      <slot />
+    </div>
+  </div>
+</div>
+```
 
 ## Development Setup
 
@@ -117,7 +120,7 @@ $modal-close-bg-color-hover: darken($modal-dialog-bg-color, 5%);
 # Project setup
 yarn install
 
-# Compiles and hot-reloads for development – Run the demo
+# Compiles and hot-reloads for demo web site development
 yarn run serve
 
 # Compiles and minifies for production

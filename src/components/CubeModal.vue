@@ -1,183 +1,157 @@
 <template>
-  <div v-if="opened" class="modal" v-bind="$attrs">
-    <transition :name="backdropTransition" @after-leave="$emit('backdrop-after-leave')">
-      <div v-if="showBackdrop" class="modal-backdrop" @click.self.stop="close"></div>
-    </transition>
-    <transition :name="modalTransition" @after-leave="$emit('modal-after-leave')">
-      <div v-if="showModal" class="modal-dialog">
-        <slot/>
+  <ModalTransition :name="transitionName" @after-enter="$emit('after-enter')" @after-leave="$emit('after-leave')">
+    <div v-if="opened" ref="modal" tabindex="-1" class="modal" v-bind="$attrs">
+      <div class="modal-backdrop" ref="backdrop" @click.self.stop="close"></div>
+      <!-- <div v-if="willClose" class="modal-will-close">×</div> -->
+      <div
+        ref="dialog"
+        class="modal-dialog"
+        role="dialog"
+        @touchstart="onTouchStart"
+        @touchmove="onTouchMove"
+        @touchend="onTouchEnd"
+        @transitionend="$emit('dialog-transitionend')"
+      >
+        <ButtonClose v-if="closeButton" :class="{ active: willClose }" @click="close" />
+        <div ref="container" class="modal-dialog-container">
+          <slot />
+        </div>
       </div>
-    </transition>
-  </div>
+    </div>
+  </ModalTransition>
 </template>
 
 <script>
-const smoothBehaviorAnimationDuration = 500
+import ModalTransition from './CubeModalTransition.vue'
+import ButtonClose from './CubeModalButtonClose.vue'
+
 export default {
   name: 'CubeModal',
+  components: {
+    ModalTransition,
+    ButtonClose
+  },
   props: {
     value: { type: Boolean, default: false },
-    transition: { type: String, default: 'animate' }
+    transitionName: { type: String, default: 'animate' },
+    target: { type: [String, Element], default: () => document.body },
+    closeButton: { type: Boolean, default: true }
   },
-  data () {
+  data() {
+    this.lastFocus = null
+    this.touchstartY = null
+    this.touchmoveY = null
+    this.isScrollAtTop = false
+    this.closeThreshold = null
     return {
-      windowScroll: null,
-      animate: false,
       opened: false,
-      showBackdrop: false,
-      showModal: false
+      willClose: false
     }
   },
   computed: {
-    backdropTransition () {
-      return `${this.transition}-backdrop`
+    targetElement() {
+      return this.target instanceof Element ? this.target : document.querySelector(this.target)
     },
-    modalTransition () {
-      return `${this.transition}-dialog`
+    transitionEnterActiveClassName() {
+      return `${this.transitionName}-enter-active`
     }
   },
   watch: {
-    value (value) {
-      if (value) {
-        if (!this.opened) {
-          this.open()
-        }
-      } else {
-        if (this.opened) {
-          this.close()
-        }
+    value(value) {
+      if (this.opened !== value) {
+        value ? this.open() : this.close()
       }
     }
   },
   methods: {
-    getScroll () {
-      return {
-        top: window.pageYOffset || window.scrollY,
-        left: window.pageXOffset || window.scrollX
+    onTouchStart(event) {
+      const { modal, container } = this.$refs
+      this.willClose = false
+      this.touchstartY = this.touchmoveY = event.layerY
+      this.isScrollAtTop = container.scrollTop === 0
+      this.isScrollAtBottom = container.scrollHeight - container.scrollTop === container.clientHeight
+      this.closeThreshold = window.innerHeight / 3
+      modal.classList.remove(this.transitionEnterActiveClassName)
+    },
+    onTouchMove(event) {
+      if (this.isScrollAtTop || this.isScrollAtBottom) {
+        this.willClose = false
+        const offset = event.layerY - this.touchstartY
+        if (this.isScrollAtTop && offset >= 0) {
+          event.preventDefault()
+          this.$refs.dialog.style.transform = `translateY(${offset}px)`
+          this.willClose = event.layerY >= this.touchmoveY && offset >= this.closeThreshold
+        }
+        if (this.isScrollAtBottom && offset < 0) {
+          event.preventDefault()
+          this.$refs.container.style.transform = `translateY(${offset * 0.4}px)`
+        }
+        this.touchmoveY = event.layerY
       }
     },
-    scrollTo (options) {
-      return new Promise(resolve => {
-        const { top, left } = this.getScroll()
-        const ms = options.behavior === 'smooth' && (top > 0 || left > 0)
-          ? smoothBehaviorAnimationDuration
-          : 0
-        window.scrollTo(options)
-        setTimeout(resolve, ms)
-      })
-    },
-    lockRoot () {
-      const { top, left } = this.getScroll()
-      this.windowScroll = { top, left }
-      const style = this.$root.$el.style
-      return new Promise(resolve => {
-        window.requestAnimationFrame(() => {
-          style.position = 'fixed'
-          style.top = top > 0 ? '-' + top + 'px' : '0'
-          style.right = '0'
-          style.bottom = '0'
-          style.left = left > 0 ? '-' + left + 'px' : '0'
-          style.overflow = 'hidden'
-          window.requestAnimationFrame(() => {
-            window.requestAnimationFrame(() => {
-              window.scrollTo(0, 0)
-              resolve(this)
-            })
-          })
+    onTouchEnd(event) {
+      const { modal, dialog, container } = this.$refs
+      if (this.willClose) {
+        this.willClose = false
+        dialog.style.transform = ''
+        this.close()
+      } else {
+        this.$once('dialog-transitionend', () => {
+          modal.classList.remove(this.transitionEnterActiveClassName)
         })
-      })
-    },
-    unlockRoot () {
-      const { top, left } = this.windowScroll
-      this.windowScroll = null
-      const style = this.$root.$el.style
-      return new Promise(resolve => {
-        window.requestAnimationFrame(() => {
-          window.requestAnimationFrame(() => {
-            style.position = ''
-            style.overflow = ''
-            style.left = ''
-            style.bottom = ''
-            style.right = ''
-            style.top = ''
-            window.scrollTo(left, top)
-            resolve(this)
-          })
-        })
-      })
-    },
-    open () {
-      return new Promise(resolve => {
-        if (!this.animate) {
-          this.animate = true
-          this.opened = true
-          this.$nextTick()
-            .then(() => this.lockRoot())
-            .then(() => {
-              this.showBackdrop = true
-              this.showModal = true
-              this.animate = false
-              this.$emit('input', true)
-              this.$emit('open', this)
-              resolve(this)
-            })
-        } else {
-          resolve(this)
-        }
-      })
-    },
-    closeModal () {
-      const promise = this.showModal
-        ? new Promise(resolve => this.$once('modal-after-leave', resolve))
-        : Promise.resolve()
-      this.showModal = false
-      return promise
-    },
-    closeBackdrop () {
-      const promise = this.showBackdrop
-        ? new Promise(resolve => this.$once('backdrop-after-leave', resolve))
-        : Promise.resolve()
-      this.showBackdrop = false
-      return promise
-    },
-    close (options) {
-      return new Promise(resolve => {
-        if (!this.animate && this.opened) {
-          this.animate = true
-          this.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-            .then(() => Promise.all([
-              this.closeModal(),
-              this.closeBackdrop()
-            ]))
-            .then(() => this.unlockRoot())
-            .then(() => {
-              this.opened = false
-              this.animate = false
-              this.$emit('input', false)
-              this.$emit('close', this)
-              resolve(this)
-            })
-        } else {
-          resolve(this)
-        }
-      })
-    },
-    toggle () {
-      if (this.opened) {
-        return this.close()
+        modal.classList.add(this.transitionEnterActiveClassName)
+        dialog.style.transform = ''
+        container.style.transform = ''
       }
-      return this.open()
+    },
+    lockScroll() {
+      document.body.classList.add('modal-scroll-lock')
+    },
+    unlockScroll() {
+      document.body.classList.remove('modal-scroll-lock')
+    },
+    open() {
+      this.lastFocus = document.activeElement
+      return new Promise((resolve) => {
+        this.$once('after-enter', () => {
+          this.$refs.modal.focus()
+          this.$emit('opened', this)
+          resolve()
+        })
+        this.lockScroll()
+        this.opened = true
+        if (this.value !== true) {
+          this.$emit('input', true)
+        }
+        this.$emit('open', this)
+      })
+    },
+    close() {
+      return new Promise((resolve) => {
+        this.$once('after-leave', () => {
+          this.lastFocus.focus()
+          this.$emit('closed', this)
+          resolve()
+        })
+        this.opened = false
+        this.unlockScroll()
+        if (this.value !== false) {
+          this.$emit('input', false)
+        }
+        this.$emit('close', this)
+      })
+    },
+    toggle() {
+      return this.opened ? this.close() : this.open()
     }
   },
-  mounted () {
-    // Moves it out of the $root
-    document.body.appendChild(this.$el)
+  mounted() {
+    this.targetElement.appendChild(this.$el)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     if (this.opened) {
-      this.unlockRoot()
+      this.unlockScroll()
     }
-    document.body.removeChild(this.$el)
   }
 }
 </script>

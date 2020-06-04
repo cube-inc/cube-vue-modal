@@ -1,8 +1,11 @@
-import component from '@/components/CubeModal.vue'
+import CubeModal from './components/CubeModal.vue'
+import CubeModalButtonClose from './components/CubeModalButtonClose.vue'
+import CubeModalTransition from './components/CubeModalTransition.vue'
 
-component.install = (Vue, options = {}) => {
-  const { name = component.name } = options
-  Vue.component(name, component)
+CubeModal.install = (Vue, options = {}) => {
+  const { name = CubeModal.name } = options
+  Vue.component(name, CubeModal)
 }
 
-export default component
+export default CubeModal
+export { CubeModalButtonClose, CubeModalTransition }

@@ -21,10 +21,7 @@ const banner = `/**
  * @license MIT
  */`
 
-const esbrowserslist = fs
-  .readFileSync('./.browserslistrc')
-  .toString()
-  .split('\n')
+const esbrowserslist = fs.readFileSync('./.browserslistrc').toString().split('\n')
 
 const output = {
   name,
@@ -33,27 +30,15 @@ const output = {
   sourcemap: true
 }
 
-const umd = {
-  format: 'umd',
-  file: pkg.main,
-  ...output
-}
-
 const esm = {
   format: 'esm',
   file: pkg.module,
   ...output
 }
 
-const unpkg = {
-  format: 'iife',
-  file: pkg.unpkg,
-  ...output
-}
-
 export default {
   input: 'src/wrapper.js',
-  output: [umd, esm, unpkg],
+  output: [esm],
   plugins: [
     progress(),
     clear({
@@ -64,8 +49,8 @@ export default {
     alias({
       resolve: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
       entries: {
-        '@': path.resolve('src'),
-      },
+        '@': path.resolve('src')
+      }
     }),
     vue({
       css: true,
@@ -77,7 +62,8 @@ export default {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
       presets: [
         [
-          '@babel/preset-env', {
+          '@babel/preset-env',
+          {
             targets: {
               browsers: esbrowserslist
             }
