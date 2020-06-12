@@ -13,7 +13,11 @@
     "vue",
     "modal"
   ],
+  "main": "dist/cube-vue-modal.umd.js",
   "module": "dist/cube-vue-modal.esm.js",
+  "browser": {
+    "./sfc": "src/components/ImageLazy.vue"
+  },
   "files": [
     "dist",
     "src/scss/index.scss",

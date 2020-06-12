@@ -36,9 +36,15 @@ const esm = {
   ...output
 }
 
+const umd = {
+  format: 'umd',
+  file: pkg.main,
+  ...output
+}
+
 export default {
   input: 'src/wrapper.js',
-  output: [esm],
+  output: [esm, umd],
   plugins: [
     progress(),
     clear({
