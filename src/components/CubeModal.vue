@@ -1,5 +1,5 @@
 <template>
-  <ModalTransition :name="transitionName" @after-enter="$emit('after-enter')" @after-leave="$emit('after-leave')">
+  <transition :name="transitionName" @after-enter="$emit('after-enter')" @after-leave="$emit('after-leave')">
     <div v-if="opened" ref="modal" tabindex="-1" class="modal" v-bind="$attrs">
       <div class="modal-backdrop" ref="backdrop" @click.self.stop="close"></div>
       <!-- <div v-if="willClose" class="modal-will-close">×</div> -->
@@ -18,17 +18,15 @@
         </div>
       </div>
     </div>
-  </ModalTransition>
+  </transition>
 </template>
 
 <script>
-import ModalTransition from './CubeModalTransition.vue'
 import ButtonClose from './CubeModalButtonClose.vue'
 
 export default {
   name: 'CubeModal',
   components: {
-    ModalTransition,
     ButtonClose
   },
   props: {
