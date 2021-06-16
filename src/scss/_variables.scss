@@ -2,8 +2,6 @@ $modal-z-index: 1000 !default;
 
 // Backdrop
 $modal-backdrop-color: rgba(black, 0.2) !default;
-// $modal-backdrop-filter: saturate(200%) blur(4px) !default; // Causes performance issue on Google Chrome
-$modal-backdrop-filter: none !default;
 
 // Dialog
 $modal-dialog-margin-y: 4rem !default;
@@ -27,8 +25,6 @@ $modal-close-background-color: hsla(0, 0%, 90%, 0.9) !default;
 $modal-close-background-color-hover: hsla(0, 0%, 80%, 0.9) !default;
 $modal-close-background-color-active: hsla(0, 0%, 70%, 0.9) !default;
 $modal-close-color-focus: hsla(0, 0%, 60%, 0.5) !default;
-// $modal-close-backdrop-filter: saturate(200%) blur(3px) !default;
-$modal-close-backdrop-filter: none !default;
 
 // Breakpoints
 $modal-breakpoint-xs: 576px !default;
