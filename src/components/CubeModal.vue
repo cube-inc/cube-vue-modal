@@ -2,7 +2,6 @@
   <transition :name="transitionName" @after-enter="$emit('after-enter')" @after-leave="$emit('after-leave')">
     <div v-if="opened" ref="modal" tabindex="-1" class="modal" v-bind="$attrs">
       <div class="modal-backdrop" ref="backdrop" @click.self.stop="close"></div>
-      <!-- <div v-if="willClose" class="modal-will-close">×</div> -->
       <div
         ref="dialog"
         class="modal-dialog"
@@ -74,8 +73,10 @@ export default {
     },
     onTouchMove(event) {
       const { pageY } = event.touches[0]
+      const { dialog, container } = this.$refs
+      this.isScrollAtTop = container.scrollTop === 0
+      this.isScrollAtBottom = container.scrollHeight - container.scrollTop === container.clientHeight
       if (this.isScrollAtTop || this.isScrollAtBottom) {
-        const { dialog, container } = this.$refs
         const offset = pageY - this.touchstartY
         this.willClose = false
         // Handles progressive close
@@ -87,6 +88,7 @@ export default {
         // Handles bounce overscroll from bottom with 40% reduction
         if (this.isScrollAtBottom && offset < 0) {
           event.preventDefault()
+          dialog.style.transform = ''
           container.style.transform = `translateY(${offset * 0.4}px)`
         }
         this.touchmoveY = pageY
@@ -107,10 +109,14 @@ export default {
       }
     },
     lockScroll() {
-      document.body.classList.add('modal-scroll-lock')
+      // document.body.classList.add('modal-scroll-lock')
+      this.bodyOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
     },
     unlockScroll() {
-      document.body.classList.remove('modal-scroll-lock')
+      // document.body.classList.remove('modal-scroll-lock')
+      document.body.style.overflow = this.bodyOverflow
+      this.bodyOverflow = undefined
     },
     open() {
       this.lastFocus = document.activeElement
