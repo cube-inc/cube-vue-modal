@@ -2,6 +2,7 @@
 
 .modal {
   position: fixed;
+  z-index: $modal-z-index;
   top: 0;
   right: 0;
   bottom: 0;
