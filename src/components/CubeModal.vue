@@ -65,35 +65,39 @@ export default {
   },
   methods: {
     onTouchStart(event) {
+      const { pageY } = event.touches[0]
       const { modal, container } = this.$refs
       this.willClose = false
-      this.touchstartY = this.touchmoveY = event.layerY
+      this.touchstartY = this.touchmoveY = pageY
       this.isScrollAtTop = container.scrollTop === 0
       this.isScrollAtBottom = container.scrollHeight - container.scrollTop === container.clientHeight
       this.closeThreshold = window.innerHeight / 3
       modal.classList.remove(this.transitionEnterActiveClassName)
     },
     onTouchMove(event) {
+      const { pageY } = event.touches[0]
       if (this.isScrollAtTop || this.isScrollAtBottom) {
+        const { dialog, container } = this.$refs
+        const offset = pageY - this.touchstartY
         this.willClose = false
-        const offset = event.layerY - this.touchstartY
+        // Handles progressive close
         if (this.isScrollAtTop && offset >= 0) {
           event.preventDefault()
-          this.$refs.dialog.style.transform = `translateY(${offset}px)`
-          this.willClose = event.layerY >= this.touchmoveY && offset >= this.closeThreshold
+          dialog.style.transform = `translateY(${offset}px)`
+          this.willClose = pageY >= this.touchmoveY && offset >= this.closeThreshold
         }
+        // Handles bounce overscroll from bottom with 40% reduction
         if (this.isScrollAtBottom && offset < 0) {
           event.preventDefault()
-          this.$refs.container.style.transform = `translateY(${offset * 0.4}px)`
+          container.style.transform = `translateY(${offset * 0.4}px)`
         }
-        this.touchmoveY = event.layerY
+        this.touchmoveY = pageY
       }
     },
     onTouchEnd(event) {
       const { modal, dialog, container } = this.$refs
       if (this.willClose) {
         this.willClose = false
-        dialog.style.transform = ''
         this.close()
       } else {
         this.$once('dialog-transitionend', () => {
@@ -128,12 +132,15 @@ export default {
     },
     close() {
       return new Promise((resolve) => {
+        const { dialog, container } = this.$refs
         this.$once('after-leave', () => {
           this.lastFocus.focus()
           this.$emit('closed', this)
           resolve()
         })
         this.opened = false
+        dialog.style.transform = ''
+        container.style.transform = ''
         this.unlockScroll()
         if (this.value !== false) {
           this.$emit('input', false)
