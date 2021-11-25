@@ -15,8 +15,10 @@
   ],
   "main": "dist/cube-vue-modal.umd.js",
   "module": "dist/cube-vue-modal.esm.js",
+  "types": "src/types.d.ts",
   "files": [
     "dist",
+    "src/types.d.ts",
     "src/scss/index.scss",
     "src/scss/_variables.scss",
     "src/scss/_modal.scss",
