@@ -51,9 +51,6 @@ export default {
     },
     transitionEnterActiveClassName() {
       return `${this.transitionName}-enter-active`
-    },
-    $container() {
-      return this.$refs.container
     }
   },
   watch: {
@@ -131,10 +128,13 @@ export default {
         })
         this.lockScroll()
         this.opened = true
-        if (this.value !== true) {
-          this.$emit('input', true)
-        }
-        this.$emit('open', this)
+        this.$nextTick(() => {
+          this.$container = this.$refs.container
+          if (this.value !== true) {
+            this.$emit('input', true)
+          }
+          this.$emit('open', this)
+        })
       })
     },
     close() {
@@ -146,6 +146,7 @@ export default {
           resolve()
         })
         this.opened = false
+        this.$container = undefined
         dialog.style.transform = ''
         container.style.transform = ''
         this.unlockScroll()
