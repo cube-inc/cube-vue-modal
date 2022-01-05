@@ -51,6 +51,9 @@ export default {
     },
     transitionEnterActiveClassName() {
       return `${this.transitionName}-enter-active`
+    },
+    $container() {
+      return this.$refs.container
     }
   },
   watch: {
