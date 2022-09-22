@@ -20,7 +20,9 @@
   "types": "dist/types/src/entry.esm.d.ts",
   "files": [
     "dist/*",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "src/**/*.scss",
+    "src/**/*.css"
   ],
   "sideEffects": false,
   "scripts": {
