@@ -31,23 +31,27 @@ export default {
   props: {
     value: { type: Boolean, default: false },
     transitionName: { type: String, default: 'animate' },
-    target: { type: [String, Element], default: () => document.body },
-    closeButton: { type: Boolean, default: true }
+    target: { type: [String, HTMLElement], default: () => document.body },
+    closeButton: { type: Boolean, default: true },
+    closeRatio: { type: Number, default: 1 / 5 }
   },
   data() {
-    this.lastFocus = null
-    this.touchstartY = null
-    this.touchmoveY = null
-    this.isScrollAtTop = false
-    this.closeThreshold = null
     return {
-      opened: false,
+      $lastFocus: null,
+      $touchstartY: 0,
+      $touchmoveY: 0,
+      $isScrollAtTop: false,
+      $isScrollAtBottom: false,
+      $closeThreshold: 0,
+      $bodyOverflow: '',
+      opened: this.value,
       willClose: false
     }
   },
   computed: {
     targetElement() {
-      return this.target instanceof Element ? this.target : document.querySelector(this.target)
+      if (this.target instanceof HTMLElement) return this.target
+      return document.querySelector(this.target) ?? document.body
     },
     transitionEnterActiveClassName() {
       return `${this.transitionName}-enter-active`
@@ -63,96 +67,103 @@ export default {
   methods: {
     onTouchStart(event) {
       const { pageY } = event.touches[0]
-      const { modal, container } = this.$refs
-      this.willClose = false
-      this.touchstartY = this.touchmoveY = pageY
-      this.isScrollAtTop = container.scrollTop === 0
-      this.isScrollAtBottom = container.scrollHeight - container.scrollTop === container.clientHeight
-      this.closeThreshold = window.innerHeight / 3
-      modal.classList.remove(this.transitionEnterActiveClassName)
+      const container = this.$refs.container
+      const modal = this.$refs.modal
+      if (container && modal) {
+        this.willClose = false
+        this.$touchstartY = pageY
+        this.$touchmoveY = pageY
+        this.$isScrollAtTop = container.scrollTop === 0
+        this.$isScrollAtBottom = container.scrollHeight - container.scrollTop === container.clientHeight
+        this.$closeThreshold = window.innerHeight * this.closeRatio
+        modal.classList.remove(this.transitionEnterActiveClassName)
+      }
     },
     onTouchMove(event) {
       const { pageY } = event.touches[0]
-      const { dialog, container } = this.$refs
-      this.isScrollAtTop = container.scrollTop === 0
-      this.isScrollAtBottom = container.scrollHeight - container.scrollTop === container.clientHeight
-      if (this.isScrollAtTop || this.isScrollAtBottom) {
-        const offset = pageY - this.touchstartY
-        this.willClose = false
-        // Handles progressive close
-        if (this.isScrollAtTop && offset >= 0) {
-          event.preventDefault()
-          dialog.style.transform = `translateY(${offset}px)`
-          this.willClose = pageY >= this.touchmoveY && offset >= this.closeThreshold
+      const container = this.$refs.container
+      const dialog = this.$refs.dialog
+      if (container && dialog) {
+        this.$isScrollAtBottom = container ? container.scrollHeight - container.scrollTop === container.clientHeight : false
+        if (this.$isScrollAtTop || this.$isScrollAtBottom) {
+          const offset = pageY - this.$touchstartY
+          this.willClose = false
+          // Handles progressive close
+          if (this.$isScrollAtTop && offset >= 0) {
+            event.preventDefault()
+            dialog.style.transform = `translateY(${offset}px)`
+            this.willClose = pageY >= this.$touchmoveY && offset >= this.$closeThreshold
+          }
+          // Handles bounce overscroll from bottom with 40% reduction
+          if (this.$isScrollAtBottom && offset < 0) {
+            event.preventDefault()
+            dialog.style.transform = ''
+            container.style.transform = `translateY(${offset * this.closeRatio}px)`
+          }
+          this.$touchmoveY = pageY
+        } else {
+          this.$isScrollAtTop = container ? container.scrollTop === 0 : false
+          if (this.$isScrollAtTop || this.$isScrollAtBottom) {
+            this.$touchstartY = pageY
+            this.$touchmoveY = pageY
+          }
         }
-        // Handles bounce overscroll from bottom with 40% reduction
-        if (this.isScrollAtBottom && offset < 0) {
-          event.preventDefault()
-          dialog.style.transform = ''
-          container.style.transform = `translateY(${offset * 0.4}px)`
-        }
-        this.touchmoveY = pageY
       }
     },
-    onTouchEnd(event) {
-      const { modal, dialog, container } = this.$refs
-      if (this.willClose) {
-        this.willClose = false
-        this.close()
-      } else {
-        this.$once('dialog-transitionend', () => {
-          modal.classList.remove(this.transitionEnterActiveClassName)
-        })
-        modal.classList.add(this.transitionEnterActiveClassName)
-        dialog.style.transform = ''
-        container.style.transform = ''
+    onTouchEnd(_event) {
+      const modal = this.$refs.modal
+      const dialog = this.$refs.dialog
+      const container = this.$refs.container
+      if (modal && dialog && container) {
+        if (this.willClose) {
+          this.willClose = false
+          this.close()
+        } else {
+          this.$once('dialog-transitionend', () => {
+            modal.classList.remove(this.transitionEnterActiveClassName)
+          })
+          modal.classList.add(this.transitionEnterActiveClassName)
+          dialog.style.transform = ''
+          container.style.transform = ''
+        }
       }
     },
     lockScroll() {
-      // document.body.classList.add('modal-scroll-lock')
-      this.bodyOverflow = document.body.style.overflow
+      this.$bodyOverflow = document.body.style.overflow
       document.body.style.overflow = 'hidden'
     },
     unlockScroll() {
-      // document.body.classList.remove('modal-scroll-lock')
-      document.body.style.overflow = this.bodyOverflow
-      this.bodyOverflow = undefined
+      document.body.style.overflow = this.$bodyOverflow
     },
     open() {
-      this.lastFocus = document.activeElement
+      this.$lastFocus = document.activeElement
       return new Promise((resolve) => {
         this.$once('after-enter', () => {
-          this.$refs.modal.focus()
           this.$emit('opened', this)
           resolve()
         })
         this.lockScroll()
         this.opened = true
         this.$nextTick(() => {
-          this.$container = this.$refs.container
-          if (this.value !== true) {
-            this.$emit('input', true)
-          }
+          if (this.value !== true) this.$emit('input', true)
           this.$emit('open', this)
         })
       })
     },
     close() {
       return new Promise((resolve) => {
-        const { dialog, container } = this.$refs
         this.$once('after-leave', () => {
-          this.lastFocus.focus()
+          if (this.$lastFocus instanceof HTMLElement) this.$lastFocus.focus()
           this.$emit('closed', this)
           resolve()
         })
         this.opened = false
-        this.$container = undefined
-        dialog.style.transform = ''
-        container.style.transform = ''
+        const dialog = this.$refs.dialog
+        const container = this.$refs.container
+        if (dialog) dialog.style.transform = ''
+        if (container) container.style.transform = ''
         this.unlockScroll()
-        if (this.value !== false) {
-          this.$emit('input', false)
-        }
+        if (this.value !== false) this.$emit('input', false)
         this.$emit('close', this)
       })
     },
@@ -164,9 +175,7 @@ export default {
     this.targetElement.appendChild(this.$el)
   },
   beforeDestroy() {
-    if (this.opened) {
-      this.unlockScroll()
-    }
+    if (this.opened) this.unlockScroll()
   }
 }
 </script>
