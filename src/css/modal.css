@@ -1,0 +1,225 @@
+:root {
+  --modal-z-index: 1000;
+
+  /* Backdrop */
+  --modal-backdrop-color: hsla(0, 0%, 0%, 0.2);
+
+  /* Dialog */
+  --modal-dialog-margin-y: 4rem;
+  --modal-dialog-margin-x: 1rem;
+  --modal-dialog-margin: var(--modal-dialog-margin-y) var(--modal-dialog-margin-x);
+  --modal-dialog-margin-y-xs: 2rem;
+  --modal-dialog-margin-x-xs: 0;
+  --modal-dialog-margin-xs: var(--modal-dialog-margin-y-xs) var(--modal-dialog-margin-x-xs);
+  --modal-dialog-overscroll-margin: 2rem;
+  --modal-dialog-border-radius: 1rem;
+  --modal-dialog-background-color: hsl(0, 0%, 98%);
+  --modal-dialog-box-shadow-offset-x: 0;
+  --modal-dialog-box-shadow-offset-y: 1rem;
+  --modal-dialog-box-shadow-blur-radius: 2rem;
+  --modal-dialog-box-shadow-spread-radius: 0;
+  --modal-dialog-box-shadow-color: hsla(0, 0%, 0%, 0.1);
+  --modal-dialog-box-shadow:
+    var(--modal-dialog-box-shadow-offset-x)
+    var(--modal-dialog-box-shadow-offset-y)
+    var(--modal-dialog-box-shadow-blur-radius)
+    var(--modal-dialog-box-shadow-spread-radius)
+    var(--modal-dialog-box-shadow-color)
+  ;
+
+  /* Close button */
+  --modal-close-font-size: 1rem;
+  --modal-close-button-size: 2.5rem;
+  --modal-close-margin: 1rem;
+  --modal-close-border-radius: 50%;
+  --modal-close-color: hsla(0, 0%, 10%, 0.9);
+  --modal-close-background-color: hsla(0, 0%, 90%, 0.9);
+  --modal-close-background-color-hover: hsla(0, 0%, 80%, 0.9);
+  --modal-close-background-color-active: hsla(0, 0%, 70%, 0.9);
+  --modal-close-color-focus: hsla(0, 0%, 60%, 0.5);
+
+  /* Breakpoints */
+  --modal-breakpoint-xs: 576px;
+  --modal-breakpoint-sm: 768px;
+  --modal-breakpoint-md: 992px;
+  --modal-breakpoint-lg: 1200px;
+  --modal-breakpoint-xl: 1900px;
+}
+
+.modal {
+  position: fixed;
+  z-index: var(--modal-z-index);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  overflow: hidden;
+  pointer-events: none;
+}
+.modal:focus {
+  outline: 0;
+}
+
+/* Align start */
+.modal-align-start {
+  align-items: flex-start;
+}
+
+/* Backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--modal-backdrop-color);
+  pointer-events: auto;
+}
+
+/* Dialog */
+.modal-dialog {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  margin: var(--modal-dialog-margin);
+  background-color: var(--modal-dialog-background-color);
+  border-radius: var(--modal-dialog-border-radius);
+  box-shadow: var(--modal-dialog-box-shadow);
+  overflow: hidden;
+  pointer-events: auto;
+}
+.modal-dialog:focus {
+  outline: none;
+}
+
+/* Dialog Container */
+.modal-dialog-container {
+  min-height: calc(var(--modal-close-button-size) + (var(--modal-close-margin) * 2));
+  max-height: calc(100vh - var(--modal-dialog-margin-y) * 2);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Close */
+.modal-dialog-close {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: var(--modal-close-margin);
+  padding: 0;
+  width: var(--modal-close-button-size);
+  height: var(--modal-close-button-size);
+  border: 0 none;
+  border-radius: var(--modal-close-border-radius);
+  font-size: var(--modal-close-font-size);
+  line-height: var(--modal-close-button-size);
+  color: var(--modal-close-color);
+  background-color: var(--modal-close-background-color);
+  box-shadow: 0 0 0 3px transparent;
+  cursor: pointer;
+  transition: all 100ms ease;
+}
+@media (hover: hover) {
+  .modal-dialog-close:hover {
+    background-color: var(--modal-close-background-color-hover);
+  }
+}
+.modal-dialog-close::-moz-focus-inner {
+  outline: none;
+}
+.modal-dialog-close:focus {
+  box-shadow: 0 0 0 3px var(--modal-close-color-focus);
+}
+.modal-dialog-close.active,
+.modal-dialog-close:active {
+  background-color: var(--modal-close-background-color-active);
+}
+.modal-dialog-close .icon {
+  display: block;
+  width: calc(var(--modal-close-button-size) * 0.3);
+  height: calc(var(--modal-close-button-size) * 0.3);
+  color: var(--modal-close-color);
+  stroke: var(--modal-close-color);
+  fill: var(--modal-close-color);
+}
+
+/* Title */
+.modal-title {
+  line-height: var(--modal-close-button-size);
+  font-size: var(--modal-close-button-size);
+  margin: 0;
+}
+
+/**
+ * Fullscreen
+ */
+.modal-fullscreen .modal-dialog {
+  margin: 0 0 calc(0rem - var(--modal-dialog-overscroll-margin)) 0;
+  padding-bottom: var(--modal-dialog-overscroll-margin);
+  height: calc(100% + var(--modal-dialog-overscroll-margin));
+  max-height: none;
+  border-radius: 0;
+}
+.modal-fullscreen .modal-dialog-container {
+  height: 100%;
+  max-height: none;
+}
+
+/**
+ * XS
+ */
+.modal-xs .modal-dialog {
+  max-width: var(--modal-breakpoint-xs);
+}
+
+/**
+ * SM
+ */
+.modal-sm .modal-dialog {
+  max-width: var(--modal-breakpoint-sm);
+}
+
+/**
+ * MD
+ */
+.modal-md .modal-dialog {
+  max-width: var(--modal-breakpoint-md);
+}
+
+/**
+ * LG
+ */
+.modal-lg .modal-dialog {
+  max-width: var(--modal-breakpoint-lg);
+}
+
+/**
+ * XL
+ */
+.modal-xl .modal-dialog {
+  max-width: var(--modal-breakpoint-xl);
+}
+
+@media (max-width: 576px) {
+  .modal {
+    align-items: flex-end;
+  }
+  .modal-dialog {
+    margin: var(--modal-dialog-margin-y-xs) var(--modal-dialog-margin-x-xs) calc(0rem - var(--modal-dialog-overscroll-margin)) var(--modal-dialog-margin-x-xs);
+    padding-bottom: var(--modal-dialog-overscroll-margin);
+    height: calc(100% - var(--modal-dialog-margin-y-xs) + var(--modal-dialog-overscroll-margin));
+    border-radius: var(--modal-dialog-border-radius) var(--modal-dialog-border-radius) 0 0;
+  }
+  .modal-dialog-container {
+    height: 100%;
+    max-height: none;
+  }
+}
