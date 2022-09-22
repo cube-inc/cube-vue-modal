@@ -13,10 +13,10 @@
     "vue",
     "modal"
   ],
-  "main": "dist/ls-vue-modal.ssr.js",
-  "browser": "dist/ls-vue-modal.esm.js",
-  "module": "dist/ls-vue-modal.esm.js",
-  "unpkg": "dist/ls-vue-modal.min.js",
+  "main": "dist/cube-vue-modal.ssr.js",
+  "browser": "dist/cube-vue-modal.esm.js",
+  "module": "dist/cube-vue-modal.esm.js",
+  "unpkg": "dist/cube-vue-modal.min.js",
   "types": "dist/types/src/entry.esm.d.ts",
   "files": [
     "dist/*",
