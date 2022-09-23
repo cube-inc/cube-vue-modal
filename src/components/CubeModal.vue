@@ -50,8 +50,7 @@ export default {
   },
   computed: {
     targetElement() {
-      if (this.target instanceof HTMLElement) return this.target
-      return document.querySelector(this.target) ?? document.body
+      return this.target instanceof HTMLElement ? this.target : document.querySelector(this.target) || document.body
     },
     transitionEnterActiveClassName() {
       return `${this.transitionName}-enter-active`
