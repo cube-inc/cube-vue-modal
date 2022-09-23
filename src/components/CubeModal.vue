@@ -168,6 +168,10 @@ export default {
     },
     toggle() {
       return this.opened ? this.close() : this.open()
+    },
+    scrollTo(options) {
+      const container = this.$refs.container
+      if (container instanceof HTMLDivElement) container.scrollTo(options)
     }
   },
   mounted() {
