@@ -6,9 +6,9 @@ import clear from 'rollup-plugin-clear'
 
 import vue from 'rollup-plugin-vue'
 import alias from '@rollup/plugin-alias'
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import babel from 'rollup-plugin-babel'
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import babel from '@rollup/plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 
 import pkg from './package.json'
@@ -63,7 +63,6 @@ export default {
       compileTemplate: true
     }),
     babel({
-      runtimeHelpers: true,
       exclude: 'node_modules/**',
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
       presets: [
