@@ -65,6 +65,7 @@
   .modal-dialog::before {
     content: '';
     position: absolute;
+    z-index: 1;
     inset: var(--modal-dialog-handle-top) calc(50vw - var(--modal-dialog-handle-width) - var(--modal-dialog-margin-x));
     height: var(--modal-dialog-handle-height);
     background-color: rgba(0, 0, 0, 0.2);
