@@ -1,9 +1,7 @@
-@import 'variables';
-@import 'modal';
-@import 'animations';
+@import 'index';
 
 // Text
-$text-color: #283352;
+$text-color: hsl(224, 34%, 4%);
 
 // Types
 $font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',

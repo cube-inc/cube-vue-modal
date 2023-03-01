@@ -1,0 +1,69 @@
+///
+/// Desktop
+///
+@media (min-width: $modal-breakpoint-xs) {
+  .modal {
+    --modal-dialog-margin-x: #{$modal-dialog-margin-x};
+    --modal-dialog-margin-y: #{$modal-dialog-margin-y};
+    --modal-dialog-border-radius: #{$modal-dialog-border-radius};
+    align-items: center;
+  }
+  .modal-dialog {
+    height: unset;
+  }
+  .modal-container {
+    min-height: $modal-close-button-size + ($modal-close-margin * 2);
+    max-height: calc(100vh - var(--modal-dialog-margin-y) * 2);
+    height: auto;
+  }
+}
+
+///
+/// Fullscreen
+///
+.modal-fullscreen {
+  --modal-dialog-margin-x: 0px;
+  --modal-dialog-margin-y: 0px;
+  --modal-dialog-border-radius: 0;
+  .modal-dialog {
+    height: calc(100% + var(--modal-dialog-overscroll-margin));
+    max-height: none;
+  }
+  .modal-dialog-container {
+    height: 100%;
+    max-height: none;
+  }
+}
+
+///
+/// Sizes
+///
+.modal-xs {
+  .modal-dialog {
+    max-width: $modal-breakpoint-xs;
+  }
+}
+
+.modal-sm {
+  .modal-dialog {
+    max-width: $modal-breakpoint-sm;
+  }
+}
+
+.modal-md {
+  .modal-dialog {
+    max-width: $modal-breakpoint-md;
+  }
+}
+
+.modal-lg {
+  .modal-dialog {
+    max-width: $modal-breakpoint-lg;
+  }
+}
+
+.modal-xl {
+  .modal-dialog {
+    max-width: $modal-breakpoint-xl;
+  }
+}

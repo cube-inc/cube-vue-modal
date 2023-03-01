@@ -1,30 +1,46 @@
 $modal-z-index: 1000 !default;
 
 // Backdrop
-$modal-backdrop-color: rgba(black, 0.2) !default;
+$modal-backdrop-color: rgba(black, 0.25) !default;
 
 // Dialog
 $modal-dialog-margin-y: 4rem !default;
 $modal-dialog-margin-x: 1rem !default;
 $modal-dialog-margin: $modal-dialog-margin-y $modal-dialog-margin-x !default;
 $modal-dialog-margin-y-xs: 2rem !default;
-$modal-dialog-margin-x-xs: 0 !default;
+$modal-dialog-margin-x-xs: 0px !default;
 $modal-dialog-margin-xs: $modal-dialog-margin-y-xs $modal-dialog-margin-x-xs !default;
 $modal-dialog-overscroll-margin: 2rem !default;
 $modal-dialog-border-radius: 1rem !default;
 $modal-dialog-background-color: darken(white, 2%) !default;
 $modal-dialog-box-shadow: 0 0 1rem rgba(black, 0.25) !default;
 
+// Dialog handle
+$modal-dialog-handle-width: 20px !default;
+$modal-dialog-handle-top: 6px !default;
+$modal-dialog-handle-height: 5px !default;
+$modal-dialog-handle-border-radius: $modal-dialog-handle-height !default;
+
 // Close button
-$modal-close-font-size: 1rem !default;
-$modal-close-button-size: 2.5rem !default;
-$modal-close-margin: 1rem !default;
+$modal-close-font-size: 0.75rem !default;
+$modal-close-button-size: 2rem !default;
+$modal-close-margin: 0.75rem !default;
 $modal-close-border-radius: 50% !default;
 $modal-close-color: hsla(0, 0%, 10%, 0.9) !default;
 $modal-close-background-color: hsla(0, 0%, 90%, 0.9) !default;
 $modal-close-background-color-hover: hsla(0, 0%, 80%, 0.9) !default;
 $modal-close-background-color-active: hsla(0, 0%, 70%, 0.9) !default;
 $modal-close-color-focus: hsla(0, 0%, 60%, 0.5) !default;
+
+// Animations
+$modal-enter-backdrop-transition-duration: 350ms !default;
+$modal-enter-backdrop-transition-timing: ease !default;
+$modal-enter-dialog-transition-duration: 550ms !default;
+$modal-enter-dialog-transition-timing: cubic-bezier(0.2, 1.1, 0.33, 1) !default;
+$modal-leave-backdrop-transition-duration: 350ms !default;
+$modal-leave-backdrop-transition-timing: ease !default;
+$modal-leave-dialog-transition-duration: 350ms !default;
+$modal-leave-dialog-transition-timing: ease-out !default;
 
 // Breakpoints
 $modal-breakpoint-xs: 576px !default;

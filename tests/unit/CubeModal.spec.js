@@ -7,7 +7,7 @@ describe(Modal.name, () => {
     expect(Modal.name).toBe('CubeModal')
     expect(wrapper.props()).toHaveProperty('value', false)
     expect(wrapper.props()).toHaveProperty('closeButton', true)
-    expect(wrapper.props()).toHaveProperty('transitionName', 'animate')
+    expect(wrapper.props()).toHaveProperty('transitionName', 'modal')
     expect(wrapper.props()).toHaveProperty('target')
     expect(wrapper.props().target).toBeInstanceOf(HTMLBodyElement)
   })

@@ -1,5 +1,5 @@
 <template>
-  <transition :name="transitionName" @after-enter="$emit('after-enter')" @after-leave="$emit('after-leave')">
+  <transition :name="transitionName" @after-enter="onModalAfterEnter" @after-leave="onModalAfterLeave">
     <div v-if="opened" ref="modal" tabindex="-1" class="modal" v-bind="$attrs">
       <div class="modal-backdrop" ref="backdrop" @click.self.stop="close"></div>
       <div
@@ -9,7 +9,7 @@
         @touchstart="onTouchStart"
         @touchmove="onTouchMove"
         @touchend="onTouchEnd"
-        @transitionend="$emit('dialog-transitionend')"
+        @transitionend="onDialogTransitionEnd"
       >
         <ButtonClose v-if="closeButton" :class="{ active: willClose }" @click="close" />
         <div ref="container" class="modal-dialog-container">
@@ -25,18 +25,17 @@ import ButtonClose from './CubeModalButtonClose.vue'
 
 export default {
   name: 'CubeModal',
-  components: {
-    ButtonClose
-  },
+  components: { ButtonClose },
   props: {
     value: { type: Boolean, default: false },
-    transitionName: { type: String, default: 'animate' },
+    transitionName: { type: String, default: 'modal' },
     target: { type: [String, HTMLElement], default: () => document.body },
     closeButton: { type: Boolean, default: true },
     closeRatio: { type: Number, default: 1 / 5 }
   },
   data() {
     return {
+      $resolve: null,
       $lastFocus: null,
       $touchstartY: 0,
       $touchmoveY: 0,
@@ -118,14 +117,24 @@ export default {
           this.willClose = false
           this.close()
         } else {
-          this.$once('dialog-transitionend', () => {
-            modal.classList.remove(this.transitionEnterActiveClassName)
-          })
           modal.classList.add(this.transitionEnterActiveClassName)
           dialog.style.transform = ''
           container.style.transform = ''
         }
       }
+    },
+    onDialogTransitionEnd() {
+      const modal = this.$refs.modal
+      modal && modal.classList.remove(this.transitionEnterActiveClassName)
+    },
+    onModalAfterEnter() {
+      this.$emit('opened', this)
+      this.$resolve && this.$resolve()
+    },
+    onModalAfterLeave() {
+      this.$emit('closed', this)
+      this.$resolve && this.$resolve()
+      if (this.$lastFocus instanceof HTMLElement) this.$lastFocus.focus()
     },
     lockScroll() {
       this.$bodyOverflow = document.body.style.overflow
@@ -137,10 +146,7 @@ export default {
     open() {
       this.$lastFocus = document.activeElement
       return new Promise((resolve) => {
-        this.$once('after-enter', () => {
-          this.$emit('opened', this)
-          resolve()
-        })
+        this.$resolve = resolve
         this.lockScroll()
         this.opened = true
         this.$nextTick(() => {
@@ -151,16 +157,8 @@ export default {
     },
     close() {
       return new Promise((resolve) => {
-        this.$once('after-leave', () => {
-          if (this.$lastFocus instanceof HTMLElement) this.$lastFocus.focus()
-          this.$emit('closed', this)
-          resolve()
-        })
+        this.$resolve = resolve
         this.opened = false
-        const dialog = this.$refs.dialog
-        const container = this.$refs.container
-        if (dialog) dialog.style.transform = ''
-        if (container) container.style.transform = ''
         this.unlockScroll()
         if (this.value !== false) this.$emit('input', false)
         this.$emit('close', this)
