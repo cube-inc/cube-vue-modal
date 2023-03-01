@@ -20,9 +20,11 @@
     "dist",
     "src/types.d.ts",
     "src/scss/index.scss",
-    "src/scss/_variables.scss",
-    "src/scss/_modal.scss",
-    "src/scss/_animations.scss"
+    "src/scss/_variables",
+    "src/scss/_modal",
+    "src/scss/_variations",
+    "src/scss/_utils",
+    "src/scss/_animations"
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
