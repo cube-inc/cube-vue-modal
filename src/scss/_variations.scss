@@ -10,11 +10,13 @@
   }
   .modal-dialog {
     height: unset;
+    margin: var(--modal-dialog-margin-y) var(--modal-dialog-margin-x);
+    padding-bottom: 0;
   }
-  .modal-container {
+  .modal-dialog-container {
+    height: auto;
     min-height: $modal-close-button-size + ($modal-close-margin * 2);
     max-height: calc(100vh - var(--modal-dialog-margin-y) * 2);
-    height: auto;
   }
 }
 
