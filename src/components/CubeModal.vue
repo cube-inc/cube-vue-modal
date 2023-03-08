@@ -177,6 +177,7 @@ export default {
   },
   beforeDestroy() {
     if (this.opened) this.unlockScroll()
+    this.targetElement.removeChild(this.$el)
   }
 }
 </script>
