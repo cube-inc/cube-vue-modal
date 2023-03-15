@@ -6,7 +6,7 @@
   --modal-dialog-overscroll-margin: #{$modal-dialog-overscroll-margin};
   --modal-dialog-border-radius: #{$modal-dialog-border-radius} #{$modal-dialog-border-radius} 0 0;
   --modal-dialog-background-color: #{$modal-dialog-background-color};
-  --modal-dialog-box-shadow: #{modal-dialog-box-shadow};
+  --modal-dialog-box-shadow: #{$modal-dialog-box-shadow};
   --modal-dialog-handle-top: #{$modal-dialog-handle-top};
   --modal-dialog-handle-width: #{$modal-dialog-handle-width};
   --modal-dialog-handle-height: #{$modal-dialog-handle-height};
